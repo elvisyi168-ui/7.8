@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>115年上半年度成果暨下半年度推動重點</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans TC"', 'sans-serif'],
+                    },
+                    colors: {
+                        corp: {
+                            blue: '#0f172a', // slate-900
+                            green: '#065f46', // emerald-800
+                            light: '#f8fafc', // slate-50
+                            accent: '#0f766e', // teal-700
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #ffffff;
+            color: #0f172a;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        /* Slide Transitions */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: scale(0.98) translateY(10px);
+            display: flex;
+            flex-direction: column;
+            padding: 4vh 5vw; /* 縮放邊距以適應筆電螢幕 */
+        }
+
+        .slide.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1) translateY(0);
+        }
+
+        /* Staggered Animations inside slides */
+        .slide.active .stagger-1 { animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.1s both; }
+        .slide.active .stagger-2 { animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both; }
+        .slide.active .stagger-3 { animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both; }
+        .slide.active .stagger-4 { animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.4s both; }
+        .slide.active .stagger-5 { animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.5s both; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Flow Animation for chart */
+        .flow-arrow {
+            animation: flowMove 2s infinite;
+        }
+        @keyframes flowMove {
+            0% { transform: translateX(0); opacity: 0.3; }
+            50% { transform: translateX(5px); opacity: 1; }
+            100% { transform: translateX(0); opacity: 0.3; }
+        }
+
+        /* UI Enhancements */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.03);
+            border-radius: 1.5rem;
+        }
+        
+        .progress-nav {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 50;
+        }
+        .progress-dot {
+            width: 40px;
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        .progress-dot.active {
+            background: #0f766e;
+        }
+        
+        /* Custom scrollbar for inner scrolling */
+        .custom-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Slide 1: Overview -->
+    <section class="slide active" id="slide-1">
+        <header class="mb-4 lg:mb-6 stagger-1 shrink-0">
+            <h1 class="text-4xl lg:text-5xl font-light tracking-tight text-corp-blue mb-2 lg:mb-3">115年上半年度成果暨下半年度推動重點</h1>
+            <p class="text-lg lg:text-xl text-slate-500 font-light border-l-4 border-corp-accent pl-4 mb-3 lg:mb-4">上半年完成制度建立與跨機構專案推動，下半年進入試辦、驗證及落地。</p>
+            
+            <!-- 新增總結句 -->
+            <div class="inline-flex items-center gap-2 bg-slate-50 border border-slate-200 px-3 lg:px-4 py-2 rounded-lg text-base text-slate-700 shadow-sm">
+                <i data-lucide="target" class="w-5 h-5 text-corp-green"></i>
+                <span>上半年共推動 <strong class="text-corp-blue font-bold text-lg">9</strong> 項跨機構專案，聚焦制度建立、智慧照護及AI應用，其中 <strong class="text-corp-blue font-bold text-lg">3</strong> 項已產生成效，其餘專案已完成階段性建置，將於下半年進入試辦與驗證。</span>
+            </div>
+        </header>
+
+        <div class="flex-1 flex flex-col justify-center min-h-0">
+            <h2 class="text-lg lg:text-xl text-corp-green font-medium mb-3 lg:mb-4 stagger-2 shrink-0">生福課督導年度跨機構專案範疇</h2>
+            
+            <div class="grid grid-cols-3 gap-3 lg:gap-5 stagger-3 min-h-0 flex-1">
+                <!-- 9 Cards -->
+                <div class="glass-card p-4 lg:p-5 flex items-center gap-3 lg:gap-4 transition hover:scale-[1.02]">
+                    <div class="p-2 lg:p-3 bg-slate-50 rounded-xl text-corp-blue shrink-0"><i data-lucide="shield-check" class="w-6 h-6"></i></div>
+                    <span class="text-lg lg:text-xl font-medium">約束3.0</span>
+                </div>
+                <div class="glass-card p-4 lg:p-5 flex items-center gap-3 lg:gap-4 transition hover:scale-[1.02] border-l-4 border-corp-accent">
+                    <div class="p-2 lg:p-3 bg-teal-50 rounded-xl text-corp-accent shrink-0"><i data-lucide="users" class="w-6 h-6"></i></div>
+                    <span class="text-lg lg:text-xl font-medium">115照服員新制</span>
+                </div>
+                <div class="glass-card p-4 lg:p-5 flex items-center gap-3 lg:gap-4 transition hover:scale-[1.02]">
+                    <div class="p-2 lg:p-3 bg-slate-50 rounded-xl text-corp-blue shrink-0"><i data-lucide="accessibility" class="w-6 h-6"></i></div>
+                    <span class="text-lg lg:text-xl font-medium">輔具導入</span>
+                </div>
+                <div class="glass-card p-4 lg:p-5 flex items-center gap-3 lg:gap-4 transition hover:scale-[1.02]">
+                    <div class="p-2 lg:p-3 bg-slate-50 rounded-xl text-corp-blue shrink-0"><i data-lucide="cpu" class="w-6 h-6"></i></div>
+                    <span class="text-lg lg:text-xl font-medium">AI應用與數位化</span>
+                </div>
+                <div class="glass-card p-4 lg:p-5 flex items-center gap-3 lg:gap-4 transition hover:scale-[1.02]">
+                    <div class="p-2 lg:p-3 bg-slate-50 rounded-xl text-corp-blue shrink-0"><i data-lucide="heart-handshake" class="w-6 h-6"></i></div>
+                    <span class="text-lg lg:text-xl font-medium">新人文化</span>
+                </div>
+                <div class="glass-card p-4 lg:p-5 flex items-center gap-3 lg:gap-4 transition hover:scale-[1.02]">
+                    <div class="p-2 lg:p-3 bg-slate-50 rounded-xl text-corp-blue shrink-0"><i data-lucide="building-2" class="w-6 h-6"></i></div>
+                    <span class="text-lg lg:text-xl font-medium">機構特色</span>
+                </div>
+                <div class="glass-card p-4 lg:p-5 flex items-center gap-3 lg:gap-4 transition hover:scale-[1.02]">
+                    <div class="p-2 lg:p-3 bg-slate-50 rounded-xl text-corp-blue shrink-0"><i data-lucide="smile" class="w-6 h-6"></i></div>
+                    <span class="text-lg lg:text-xl font-medium">口腔照護</span>
+                </div>
+                <div class="glass-card p-4 lg:p-5 flex items-center gap-3 lg:gap-4 transition hover:scale-[1.02]">
+                    <div class="p-2 lg:p-3 bg-slate-50 rounded-xl text-corp-blue shrink-0"><i data-lucide="activity" class="w-6 h-6"></i></div>
+                    <span class="text-lg lg:text-xl font-medium">預防肺炎智慧循環</span>
+                </div>
+                <div class="glass-card p-4 lg:p-5 flex items-center gap-3 lg:gap-4 transition hover:scale-[1.02]">
+                    <div class="p-2 lg:p-3 bg-slate-50 rounded-xl text-corp-blue shrink-0"><i data-lucide="bed" class="w-6 h-6"></i></div>
+                    <span class="text-lg lg:text-xl font-medium">智慧床墊</span>
+                </div>
+            </div>
+
+            <!-- 新增底部亮點數據列 -->
+            <div class="mt-4 lg:mt-6 flex justify-between gap-3 lg:gap-5 stagger-4 shrink-0">
+                <div class="flex-1 bg-slate-900 rounded-xl p-4 text-center text-white flex flex-col justify-center transition-transform hover:-translate-y-1">
+                    <div class="text-3xl font-light text-slate-100 flex justify-center items-baseline"><span class="count-up" data-target="9" data-decimals="0">0</span></div>
+                    <div class="text-xs text-slate-400 mt-1 uppercase tracking-widest font-bold">跨機構專案</div>
+                </div>
+                <div class="flex-1 bg-slate-900 rounded-xl p-4 text-center text-white flex flex-col justify-center transition-transform hover:-translate-y-1">
+                    <div class="text-3xl font-light text-slate-100 flex justify-center items-baseline"><span class="count-up" data-target="3" data-decimals="0">0</span></div>
+                    <div class="text-xs text-slate-400 mt-1 uppercase tracking-widest font-bold">已有成果</div>
+                </div>
+                <div class="flex-1 bg-slate-900 rounded-xl p-4 text-center text-white flex flex-col justify-center transition-transform hover:-translate-y-1">
+                    <div class="text-3xl font-light text-slate-100 flex justify-center items-baseline"><span class="count-up" data-target="6" data-decimals="0">0</span></div>
+                    <div class="text-xs text-slate-400 mt-1 uppercase tracking-widest font-bold">持續推動</div>
+                </div>
+                <div class="flex-1 bg-teal-800 rounded-xl p-4 text-center text-white flex flex-col justify-center border border-teal-600 shadow-[0_0_15px_rgba(13,148,136,0.3)] transition-transform hover:-translate-y-1">
+                    <div class="text-3xl font-medium text-teal-300 flex justify-center items-baseline"><span class="count-up" data-target="34.4">0</span><span class="text-xl ml-1">%</span></div>
+                    <div class="text-xs text-teal-100 mt-1 uppercase tracking-widest font-bold">全院約束率</div>
+                </div>
+                <div class="flex-1 bg-teal-800 rounded-xl p-4 text-center text-white flex flex-col justify-center border border-teal-600 shadow-[0_0_15px_rgba(13,148,136,0.3)] transition-transform hover:-translate-y-1">
+                    <div class="text-3xl font-medium text-teal-300 flex justify-center items-baseline"><span class="count-up" data-target="117" data-decimals="0">0</span><span class="text-xl ml-1 text-teal-200/70">人</span></div>
+                    <div class="text-xs text-teal-100 mt-1 uppercase tracking-widest font-bold">洗牙人次</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 2: Completed Outcomes -->
+    <section class="slide" id="slide-2">
+        <header class="mb-6 lg:mb-10 stagger-1 shrink-0">
+            <h1 class="text-4xl lg:text-5xl font-light tracking-tight text-corp-blue">已完成成果與階段成效 <span class="text-xl lg:text-2xl text-slate-400 ml-4">專案落地指標</span></h1>
+        </header>
+
+        <div class="grid grid-cols-3 gap-4 lg:gap-8 flex-1 min-h-0 stagger-2">
+            <!-- Card 1 -->
+            <div class="glass-card p-6 lg:p-10 flex flex-col relative overflow-hidden group">
+                <div class="absolute -right-10 -top-10 opacity-5 transition-transform group-hover:scale-110"><i data-lucide="shield-check" size="200"></i></div>
+                <div class="flex items-center gap-3 mb-4 lg:mb-6">
+                    <div class="w-2 h-6 lg:h-8 bg-corp-blue rounded-full"></div>
+                    <h2 class="text-2xl lg:text-3xl font-medium text-corp-blue">約束3.0</h2>
+                </div>
+                <div class="mb-auto z-10">
+                    <p class="text-sm text-slate-500 mb-2 uppercase tracking-wider font-bold">上半年完成</p>
+                    <ul class="space-y-3 text-lg text-slate-700">
+                        <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="text-corp-green w-5 h-5 mt-0.5 shrink-0"></i> 建立 AI 工具，輔助現場評估</li>
+                        <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="text-corp-green w-5 h-5 mt-0.5 shrink-0"></i> 導入阿爾傑模式，解除部分管路約束</li>
+                    </ul>
+                </div>
+                <div class="mt-4 lg:mt-8 z-10 shrink-0">
+                    <p class="text-slate-500 mb-1 text-base font-medium flex items-center gap-2">
+                        全院約束率 
+                        <span class="text-xs bg-teal-50 text-teal-700 px-2 py-0.5 rounded border border-teal-100 font-bold">達成 < 35% 目標</span>
+                    </p>
+                    <div class="text-6xl lg:text-7xl font-light text-corp-blue flex items-baseline">
+                        <span class="count-up" data-target="34.4">0</span><span class="text-3xl lg:text-4xl ml-2">%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="glass-card p-6 lg:p-10 flex flex-col relative overflow-hidden group">
+                <div class="absolute -right-10 -top-10 opacity-5 transition-transform group-hover:scale-110"><i data-lucide="smile" size="200"></i></div>
+                <div class="flex items-center gap-3 mb-4 lg:mb-6">
+                    <div class="w-2 h-6 lg:h-8 bg-corp-accent rounded-full"></div>
+                    <h2 class="text-2xl lg:text-3xl font-medium text-corp-blue">口腔照護</h2>
+                </div>
+                <div class="mb-auto z-10 flex flex-col h-full min-h-0">
+                    <p class="text-sm text-slate-500 mb-2 uppercase tracking-wider font-bold shrink-0">我的角色</p>
+                    <ul class="space-y-3 text-lg text-slate-700 mb-4 shrink-0">
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="text-corp-green w-5 h-5 shrink-0"></i> 推動合作模式建立</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="text-corp-green w-5 h-5 shrink-0"></i> 建立口腔照護流程</li>
+                    </ul>
+                    
+                    <div class="flex-1 flex flex-col justify-end">
+                        <p class="text-sm lg:text-base text-corp-accent font-medium mb-3 leading-relaxed bg-teal-50 p-3 lg:p-4 rounded-lg border border-teal-100">
+                            持續整合語言治療及智慧照護，作為下半年預防肺炎照護循環基礎。
+                        </p>
+
+                        <div class="bg-amber-50 rounded-lg p-3 lg:p-4 border border-amber-100">
+                            <p class="text-sm text-amber-800 flex gap-2 leading-tight font-medium">
+                                <i data-lucide="info" class="w-4 h-4 mt-0.5 shrink-0"></i>
+                                年度KPI 300人，受牙醫量能限制，持續媒合外部資源中。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 lg:mt-6 z-10 shrink-0">
+                    <p class="text-slate-500 mb-1 text-base font-medium">完成洗牙人數</p>
+                    <div class="text-6xl lg:text-7xl font-light text-corp-accent flex items-baseline">
+                        <span class="count-up" data-target="117" data-decimals="0">0</span><span class="text-2xl lg:text-3xl ml-2 text-slate-500">人</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 (新人文化 Updates) -->
+            <div class="glass-card p-6 lg:p-10 flex flex-col relative overflow-hidden group">
+                <div class="absolute -right-10 -top-10 opacity-5 transition-transform group-hover:scale-110"><i data-lucide="heart-handshake" size="200"></i></div>
+                <div class="flex items-center gap-3 mb-4 lg:mb-6">
+                    <div class="w-2 h-6 lg:h-8 bg-corp-green rounded-full"></div>
+                    <h2 class="text-2xl lg:text-3xl font-medium text-corp-blue">新人文化</h2>
+                </div>
+                
+                <div class="mb-auto z-10 flex flex-col h-full min-h-0">
+                    <div class="shrink-0">
+                        <p class="text-slate-500 mb-1 text-base font-medium">課程滿意度</p>
+                        <div class="text-5xl lg:text-6xl font-light text-corp-green flex items-baseline mb-4">
+                            <span class="count-up" data-target="95" data-decimals="0">0</span><span class="text-2xl lg:text-3xl ml-2">%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-1 flex flex-col justify-center border-t border-slate-100 pt-4">
+                        <p class="text-sm text-slate-500 mb-3 font-medium uppercase tracking-wider font-bold">課程幫助程度</p>
+                        <div class="space-y-4 w-full pr-4">
+                            <!-- Progress Bar 1 -->
+                            <div>
+                                <div class="flex justify-between text-sm mb-1.5"><span class="text-slate-700 font-medium">非常有幫助</span><span class="font-bold text-corp-green">75%</span></div>
+                                <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                                    <div class="bg-corp-green h-full w-[75%] rounded-full shadow-[0_0_8px_rgba(6,95,70,0.5)]"></div>
+                                </div>
+                            </div>
+                            <!-- Progress Bar 2 -->
+                            <div>
+                                <div class="flex justify-between text-sm mb-1.5"><span class="text-slate-700 font-medium">有些幫助</span><span class="font-bold text-teal-500">25%</span></div>
+                                <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                                    <div class="bg-teal-400 h-full w-[25%] rounded-full"></div>
+                                </div>
+                            </div>
+                            <!-- Progress Bar 3 -->
+                            <div>
+                                <div class="flex justify-between text-sm mb-1.5"><span class="text-slate-400 font-medium">完全沒幫助</span><span class="font-bold text-slate-400">0%</span></div>
+                                <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                                    <div class="bg-slate-300 h-full w-[0%] rounded-full"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-4 lg:mt-6 z-10 bg-slate-50 p-3 lg:p-4 rounded-xl border border-slate-100 shrink-0">
+                    <p class="text-sm text-slate-600 flex gap-2">
+                        <i data-lucide="target" class="w-4 h-4 mt-0.5 shrink-0 text-amber-600"></i>
+                        <span class="font-bold text-slate-700">後續重點：</span>改善參與率，提高新人到課率。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3: Major Project Progress (Asymmetric Layout) -->
+    <section class="slide" id="slide-3">
+        <header class="mb-4 lg:mb-6 stagger-1 shrink-0">
+            <h1 class="text-4xl lg:text-5xl font-light tracking-tight text-corp-blue">重大專案推動進度</h1>
+        </header>
+
+        <!-- 40/60 Layout Split -->
+        <div class="flex flex-row gap-4 lg:gap-6 flex-1 min-h-0">
+            
+            <!-- Left Column: The 40% Weight Card -->
+            <div class="w-[42%] flex flex-col stagger-2">
+                <div class="glass-card flex-1 p-5 lg:p-8 border-l-8 border-corp-blue bg-gradient-to-br from-white to-slate-50 shadow-xl flex flex-col min-h-0">
+                    <div class="flex items-center justify-between mb-4 lg:mb-6 shrink-0">
+                        <h2 class="text-2xl lg:text-3xl font-medium text-corp-blue flex items-center gap-2 lg:gap-3">
+                            <i data-lucide="users" class="w-6 h-6 lg:w-8 lg:h-8 text-corp-accent"></i> 115照服員新制
+                        </h2>
+                        <span class="px-3 py-1 bg-corp-blue text-white text-sm rounded-full font-medium tracking-wide">Core</span>
+                    </div>
+
+                    <div class="mb-2 lg:mb-4 flex-1 overflow-hidden min-h-0 flex flex-col">
+                        <p class="text-sm text-slate-500 mb-2 lg:mb-3 uppercase tracking-wider font-bold shrink-0">我的角色與執行項目</p>
+                        <div class="grid grid-cols-2 gap-y-3 lg:gap-y-4 gap-x-2 lg:gap-x-4 text-sm lg:text-base text-slate-700 leading-tight overflow-y-auto custom-scroll pr-1">
+                            <div class="flex items-start gap-2"><i data-lucide="check" class="text-corp-accent w-4 h-4 lg:w-5 lg:h-5 mt-0.5 shrink-0"></i> 分析現場工作問題</div>
+                            <div class="flex items-start gap-2"><i data-lucide="check" class="text-corp-accent w-4 h-4 lg:w-5 lg:h-5 mt-0.5 shrink-0"></i> 重新計算工時需求</div>
+                            <div class="flex items-start gap-2"><i data-lucide="check" class="text-corp-accent w-4 h-4 lg:w-5 lg:h-5 mt-0.5 shrink-0"></i> 重新盤點工作內容</div>
+                            <div class="flex items-start gap-2"><i data-lucide="check" class="text-corp-accent w-4 h-4 lg:w-5 lg:h-5 mt-0.5 shrink-0"></i> 規劃房務員制度</div>
+                            <div class="flex items-start gap-2"><i data-lucide="check" class="text-corp-accent w-4 h-4 lg:w-5 lg:h-5 mt-0.5 shrink-0"></i> 規劃輔具導入</div>
+                            <div class="flex items-start gap-2"><i data-lucide="check" class="text-corp-accent w-4 h-4 lg:w-5 lg:h-5 mt-0.5 shrink-0"></i> 完成試辦規劃</div>
+                        </div>
+                    </div>
+
+                    <!-- 變更為預期效益 -->
+                    <div class="bg-white rounded-xl p-3 lg:p-5 shadow-sm border border-slate-100 mb-3 lg:mb-4 shrink-0">
+                        <p class="text-sm text-slate-500 mb-2 uppercase tracking-wider font-bold">預期效益</p>
+                        <div class="flex flex-col gap-2 text-corp-blue font-medium text-sm lg:text-base">
+                            <div class="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded"><i data-lucide="trending-down" class="w-4 h-4 lg:w-5 lg:h-5 text-teal-600 shrink-0"></i> 降低照服員工作負荷</div>
+                            <div class="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded"><i data-lucide="zap" class="w-4 h-4 lg:w-5 lg:h-5 text-teal-600 shrink-0"></i> 提升工作效率</div>
+                            <div class="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded"><i data-lucide="user-check" class="w-4 h-4 lg:w-5 lg:h-5 text-teal-600 shrink-0"></i> 提升台籍照服員留任率</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-corp-blue text-white rounded-xl p-4 lg:p-5 shadow-inner shrink-0">
+                        <p class="text-xs lg:text-sm text-blue-200 mb-1 uppercase tracking-wider font-medium">下半年里程碑</p>
+                        <p class="text-base lg:text-xl font-light">5, 6, 7樓 <span class="font-medium text-teal-300">正式進入試辦階段</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: The 60% remaining cards -->
+            <div class="w-[58%] flex flex-col gap-3 lg:gap-5 min-h-0">
+                
+                <!-- Top Right: Pneumonia Flow (Full width of right col) -->
+                <div class="glass-card p-4 lg:p-6 stagger-3 bg-slate-900 text-white flex flex-col justify-center shrink-0">
+                    <h2 class="text-xl lg:text-2xl font-medium mb-3 flex items-center gap-2 text-teal-400">
+                        <i data-lucide="activity" class="w-5 h-5 lg:w-6 lg:h-6"></i> 預防肺炎智慧照護循環
+                    </h2>
+                    
+                    <p class="text-xs text-slate-400 mb-2 uppercase tracking-wider font-medium">上半年完成整合規劃</p>
+                    <div class="flex items-center justify-between bg-slate-800 rounded-xl p-3 lg:p-5 mb-3 lg:mb-4">
+                        <div class="text-center"><div class="bg-slate-700 w-10 h-10 lg:w-14 lg:h-14 rounded-full flex items-center justify-center mx-auto mb-1.5"><i data-lucide="smile" class="w-5 h-5 lg:w-6 lg:h-6"></i></div><span class="text-xs lg:text-sm font-medium">口腔照護</span></div>
+                        <i data-lucide="chevron-right" class="text-teal-500 flow-arrow w-5 h-5"></i>
+                        <div class="text-center"><div class="bg-slate-700 w-10 h-10 lg:w-14 lg:h-14 rounded-full flex items-center justify-center mx-auto mb-1.5"><i data-lucide="coffee" class="w-5 h-5 lg:w-6 lg:h-6"></i></div><span class="text-xs lg:text-sm font-medium">吞嚥訓練</span></div>
+                        <i data-lucide="chevron-right" class="text-teal-500 flow-arrow w-5 h-5"></i>
+                        <div class="text-center"><div class="bg-slate-700 w-10 h-10 lg:w-14 lg:h-14 rounded-full flex items-center justify-center mx-auto mb-1.5"><i data-lucide="wind" class="w-5 h-5 lg:w-6 lg:h-6"></i></div><span class="text-xs lg:text-sm font-medium">肺部訓練</span></div>
+                        <i data-lucide="chevron-right" class="text-teal-500 flow-arrow w-5 h-5"></i>
+                        <div class="text-center"><div class="bg-slate-700 w-10 h-10 lg:w-14 lg:h-14 rounded-full flex items-center justify-center mx-auto mb-1.5"><i data-lucide="bed-double" class="w-5 h-5 lg:w-6 lg:h-6"></i></div><span class="text-xs lg:text-sm text-teal-300 font-medium">智慧床墊</span></div>
+                        <i data-lucide="chevron-right" class="text-teal-500 flow-arrow w-5 h-5"></i>
+                        <div class="text-center"><div class="bg-slate-700 w-10 h-10 lg:w-14 lg:h-14 rounded-full flex items-center justify-center mx-auto mb-1.5"><i data-lucide="bell" class="w-5 h-5 lg:w-6 lg:h-6"></i></div><span class="text-xs lg:text-sm text-teal-300 font-medium">異常回饋</span></div>
+                        <i data-lucide="chevron-right" class="text-teal-500 flow-arrow w-5 h-5"></i>
+                        <div class="text-center"><div class="bg-teal-900 w-10 h-10 lg:w-14 lg:h-14 rounded-full flex items-center justify-center mx-auto mb-1.5 border border-teal-500"><i data-lucide="shield-alert" class="w-5 h-5 lg:w-6 lg:h-6 text-teal-300"></i></div><span class="text-xs lg:text-sm font-bold text-white">降低風險</span></div>
+                    </div>
+                    
+                    <div class="flex items-center gap-2 text-teal-300 bg-teal-900/50 px-4 py-2 rounded-lg w-fit text-sm lg:text-base font-medium">
+                        <i data-lucide="rocket" class="w-4 h-4 lg:w-5 lg:h-5"></i> 下半年正式推動
+                    </div>
+                </div>
+
+                <!-- Bottom Right: Split AI and Mattress -->
+                <div class="flex flex-row gap-3 lg:gap-5 flex-1 min-h-0">
+                    
+                    <!-- Bottom Left of Right Col: AI 應用與數位化 -->
+                    <div class="glass-card p-4 lg:p-6 flex-1 flex flex-col stagger-4 min-h-0">
+                        <h2 class="text-lg lg:text-xl font-medium text-corp-blue mb-2 lg:mb-3 flex items-center gap-2 shrink-0">
+                            <i data-lucide="cpu" class="text-corp-blue w-5 h-5 shrink-0"></i> AI 應用與數位化
+                        </h2>
+                        
+                        <div class="flex-1 overflow-y-auto custom-scroll pr-1 min-h-0">
+                            <p class="text-xs text-slate-500 mb-2 font-bold"><span class="uppercase tracking-wider">已完成</span> <span class="ml-1 text-corp-blue font-medium text-xs lg:text-sm">8項AI工具及流程自動化應用</span></p>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="px-2 py-1 bg-slate-100 text-slate-700 rounded text-sm font-medium">AI班表</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-700 rounded text-sm font-medium">約束工具</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-700 rounded text-sm font-medium">溝通教練</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-700 rounded text-sm font-medium">QR借用</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-700 rounded text-sm font-medium">意見自動化</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-700 rounded text-sm font-medium">PDCA</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-700 rounded text-sm font-medium">體檢自動化</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-700 rounded text-sm font-medium">口腔保健</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-auto border-t border-slate-100 pt-2 lg:pt-3 shrink-0">
+                            <p class="text-xs text-slate-500 mb-2 uppercase tracking-wider font-bold">下半年擴展</p>
+                            <div class="flex gap-2">
+                                <span class="px-2 py-1 bg-teal-50 text-teal-700 rounded text-sm font-bold border border-teal-100">電子送簽</span>
+                                <span class="px-2 py-1 bg-teal-50 text-teal-700 rounded text-sm font-bold border border-teal-100">照服版</span>
+                                <span class="px-2 py-1 bg-teal-50 text-teal-700 rounded text-sm font-bold border border-teal-100">無紙化</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Right of Right Col: Mattress -->
+                    <div class="glass-card p-4 lg:p-6 flex-1 flex flex-col stagger-5 min-h-0">
+                        <h2 class="text-lg lg:text-xl font-medium text-corp-blue mb-2 lg:mb-3 flex items-center gap-2 shrink-0">
+                            <i data-lucide="bed" class="text-corp-blue w-5 h-5 shrink-0"></i> 智慧床墊
+                        </h2>
+                        
+                        <p class="text-xs text-slate-500 mb-3 border-l-2 border-slate-300 pl-2 leading-tight shrink-0 font-medium">前期採購與安裝由創發主責，本報告聚焦現場推行與應用回饋。</p>
+
+                        <ul class="space-y-2 text-sm text-slate-700 flex-1 overflow-y-auto custom-scroll pr-1 min-h-0 font-medium">
+                            <li class="flex items-start gap-2"><div class="w-1.5 h-1.5 rounded-full bg-slate-400 mt-1.5 shrink-0"></div> 教育訓練與推動</li>
+                            <li class="flex items-start gap-2"><div class="w-1.5 h-1.5 rounded-full bg-slate-400 mt-1.5 shrink-0"></div> 收集問題與改善</li>
+                            <li class="flex items-start gap-2"><div class="w-1.5 h-1.5 rounded-full bg-slate-400 mt-1.5 shrink-0"></div> 規劃品質卓越應用</li>
+                        </ul>
+                        
+                        <div class="mt-auto shrink-0 border-t border-slate-100 pt-2 lg:pt-3">
+                            <div class="flex items-end justify-between mb-2">
+                                <span class="text-xs lg:text-sm font-bold text-slate-600">全院進度</span>
+                                <div class="text-xl lg:text-3xl font-light text-corp-blue flex items-baseline">
+                                    <span class="count-up" data-target="50" data-decimals="0">0</span><span class="text-sm lg:text-base ml-1">%</span>
+                                </div>
+                            </div>
+                            <div class="w-full bg-slate-100 h-2 rounded-full mb-3 overflow-hidden shrink-0">
+                                <div class="bg-corp-blue h-full w-1/2 rounded-full shadow-[0_0_8px_rgba(15,23,42,0.5)]"></div>
+                            </div>
+                            <!-- 床墊結語更新 -->
+                            <div class="bg-slate-50 p-2 lg:p-3 rounded-lg border border-slate-100 shrink-0">
+                                <p class="text-xs text-corp-blue font-bold"><i data-lucide="flag" class="w-4 h-4 inline mr-1 text-teal-600 shrink-0"></i> 下半年目標</p>
+                                <p class="text-[11px] lg:text-xs text-slate-500 mt-1 leading-tight font-medium">完成穩定化，作為品質卓越計畫應用基礎</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4: H2 Roadmap -->
+    <section class="slide" id="slide-4">
+        <!-- 科技感環境背光 (Ambient Blur Glow) -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-teal-500/10 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
+
+        <header class="mb-8 lg:mb-12 stagger-1 text-center">
+            <h1 class="text-4xl lg:text-5xl font-light tracking-tight text-corp-blue">下半年度推動藍圖</h1>
+            <p class="text-lg lg:text-xl text-slate-500 mt-2 lg:mt-3 font-light">進入試辦、驗證與持續優化階段</p>
+        </header>
+
+        <div class="max-w-6xl mx-auto w-full flex-1 flex flex-col justify-center relative stagger-2 min-h-0 pb-4 lg:pb-6">
+            
+            <div class="flex flex-row items-stretch justify-center gap-4 lg:gap-8 relative flex-1 min-h-0">
+                
+                <!-- Q3 Card (Left) -->
+                <div class="flex-1 glass-card p-5 lg:p-8 relative overflow-hidden group hover:-translate-y-1 transition-transform duration-300 flex flex-col min-h-0">
+                <!-- 裝飾性浮水印 -->
+                <div class="absolute -right-4 -bottom-4 text-[120px] font-black text-slate-50/60 -z-10 select-none pointer-events-none">Q3</div>
+                
+                <div class="flex items-center gap-3 lg:gap-4 mb-4 lg:mb-6 shrink-0">
+                    <div class="w-10 h-10 lg:w-14 lg:h-14 rounded-xl bg-slate-100 text-corp-blue flex items-center justify-center text-xl lg:text-2xl font-semibold">Q3</div>
+                    <h2 class="text-xl lg:text-2xl font-medium text-corp-blue">核心試辦與推動</h2>
+                </div>
+
+                <div class="flex flex-col gap-1 lg:gap-2 flex-1 overflow-y-auto custom-scroll pr-2 min-h-0">
+                    <div class="group/item flex items-center gap-3 lg:gap-4 py-2 lg:py-3 border-b border-slate-100/60 last:border-0 hover:pl-3 transition-all duration-300 shrink-0">
+                        <div class="w-6 h-6 lg:w-8 lg:h-8 rounded-full bg-slate-50 text-slate-400 flex items-center justify-center group-hover/item:bg-corp-blue group-hover/item:text-white transition-colors shrink-0">
+                            <i data-lucide="users" class="w-3 h-3 lg:w-4 lg:h-4"></i>
+                        </div>
+                        <span class="text-base lg:text-xl text-slate-700 font-medium">115照服員新制試辦</span>
+                    </div>
+                    <div class="group/item flex items-center gap-3 lg:gap-4 py-2 lg:py-3 border-b border-slate-100/60 last:border-0 hover:pl-3 transition-all duration-300 shrink-0">
+                        <div class="w-6 h-6 lg:w-8 lg:h-8 rounded-full bg-slate-50 text-slate-400 flex items-center justify-center group-hover/item:bg-corp-blue group-hover/item:text-white transition-colors shrink-0">
+                            <i data-lucide="home" class="w-3 h-3 lg:w-4 lg:h-4"></i>
+                        </div>
+                        <span class="text-base lg:text-xl text-slate-700 font-medium">房務員制度驗證</span>
+                    </div>
+                    <div class="group/item flex items-center gap-3 lg:gap-4 py-2 lg:py-3 border-b border-slate-100/60 last:border-0 hover:pl-3 transition-all duration-300 shrink-0">
+                        <div class="w-6 h-6 lg:w-8 lg:h-8 rounded-full bg-slate-50 text-slate-400 flex items-center justify-center group-hover/item:bg-corp-blue group-hover/item:text-white transition-colors shrink-0">
+                            <i data-lucide="file-signature" class="w-3 h-3 lg:w-4 lg:h-4"></i>
+                        </div>
+                        <span class="text-base lg:text-xl text-slate-700 font-medium">照服AI班表及AI班表送簽上線</span>
+                    </div>
+                    <div class="group/item flex items-center gap-3 lg:gap-4 py-2 lg:py-3 border-b border-slate-100/60 last:border-0 hover:pl-3 transition-all duration-300 shrink-0">
+                        <div class="w-6 h-6 lg:w-8 lg:h-8 rounded-full bg-slate-50 text-slate-400 flex items-center justify-center group-hover/item:bg-corp-blue group-hover/item:text-white transition-colors shrink-0">
+                            <i data-lucide="star" class="w-3 h-3 lg:w-4 lg:h-4"></i>
+                        </div>
+                        <span class="text-base lg:text-xl text-slate-700 font-medium">品質卓越計畫</span>
+                    </div>
+                    <div class="group/item flex items-center gap-3 lg:gap-4 py-2 lg:py-3 border-b border-slate-100/60 last:border-0 hover:pl-3 transition-all duration-300 shrink-0">
+                        <div class="w-6 h-6 lg:w-8 lg:h-8 rounded-full bg-slate-50 text-slate-400 flex items-center justify-center group-hover/item:bg-corp-blue group-hover/item:text-white transition-colors shrink-0">
+                            <i data-lucide="bed" class="w-3 h-3 lg:w-4 lg:h-4"></i>
+                        </div>
+                        <span class="text-base lg:text-xl text-slate-700 font-medium">智慧床墊穩定化</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Central Connector Arrow -->
+            <div class="hidden md:flex flex-col justify-center items-center -mx-3 lg:-mx-5 z-10 w-12 shrink-0">
+                <div class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-white shadow-md border border-slate-100 flex items-center justify-center text-teal-600 flow-arrow">
+                    <i data-lucide="chevron-right" class="w-5 h-5 lg:w-6 lg:h-6"></i>
+                </div>
+            </div>
+
+            <!-- Q4 Card (Right - Stepped up design) -->
+            <div class="flex-1 glass-card p-5 lg:p-8 relative overflow-hidden group hover:-translate-y-1 transition-transform duration-300 flex flex-col lg:-mt-4 lg:mb-4 min-h-0">
+                <!-- 頂部強調線 -->
+                <div class="absolute top-0 left-0 w-full h-1.5 bg-teal-600"></div>
+                <!-- 裝飾性浮水印 -->
+                <div class="absolute -right-4 -bottom-4 text-[120px] font-black text-teal-50/60 -z-10 select-none pointer-events-none">Q4</div>
+
+                <div class="flex items-center gap-3 lg:gap-4 mb-4 lg:mb-6 shrink-0">
+                    <div class="w-10 h-10 lg:w-14 lg:h-14 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center text-xl lg:text-2xl font-semibold">Q4</div>
+                    <h2 class="text-xl lg:text-2xl font-medium text-corp-blue">優化與卓越成果</h2>
+                </div>
+
+                <div class="flex flex-col gap-1 lg:gap-2 flex-1 overflow-y-auto custom-scroll pr-2 min-h-0">
+                    <div class="group/item flex items-center gap-3 lg:gap-4 py-2 lg:py-3 border-b border-slate-100/60 last:border-0 hover:pl-3 transition-all duration-300 shrink-0">
+                        <div class="w-6 h-6 lg:w-8 lg:h-8 rounded-full bg-slate-50 text-slate-400 flex items-center justify-center group-hover/item:bg-teal-600 group-hover/item:text-white transition-colors shrink-0">
+                            <i data-lucide="refresh-cw" class="w-3 h-3 lg:w-4 lg:h-4"></i>
+                        </div>
+                        <span class="text-base lg:text-xl text-slate-700 font-medium">新制優化</span>
+                    </div>
+                    <div class="group/item flex items-center gap-3 lg:gap-4 py-2 lg:py-3 border-b border-slate-100/60 last:border-0 hover:pl-3 transition-all duration-300 shrink-0">
+                        <div class="w-6 h-6 lg:w-8 lg:h-8 rounded-full bg-slate-50 text-slate-400 flex items-center justify-center group-hover/item:bg-teal-600 group-hover/item:text-white transition-colors shrink-0">
+                            <i data-lucide="cpu" class="w-3 h-3 lg:w-4 lg:h-4"></i>
+                        </div>
+                        <span class="text-base lg:text-xl text-slate-700 font-medium">AI 持續優化</span>
+                    </div>
+                    <div class="group/item flex items-center gap-3 lg:gap-4 py-2 lg:py-3 border-b border-slate-100/60 last:border-0 hover:pl-3 transition-all duration-300 shrink-0">
+                        <div class="w-6 h-6 lg:w-8 lg:h-8 rounded-full bg-slate-50 text-slate-400 flex items-center justify-center group-hover/item:bg-teal-600 group-hover/item:text-white transition-colors shrink-0">
+                            <i data-lucide="activity" class="w-3 h-3 lg:w-4 lg:h-4"></i>
+                        </div>
+                        <span class="text-base lg:text-xl text-slate-700 font-medium">預防肺炎智慧照護循環</span>
+                    </div>
+                    <div class="group/item flex items-center gap-3 lg:gap-4 py-2 lg:py-3 border-b border-slate-100/60 last:border-0 hover:pl-3 transition-all duration-300 shrink-0">
+                        <div class="w-6 h-6 lg:w-8 lg:h-8 rounded-full bg-slate-50 text-slate-400 flex items-center justify-center group-hover/item:bg-teal-600 group-hover/item:text-white transition-colors shrink-0">
+                            <i data-lucide="award" class="w-3 h-3 lg:w-4 lg:h-4"></i>
+                        </div>
+                        <span class="text-base lg:text-xl text-slate-700 font-medium">機構特色成果發表</span>
+                    </div>
+                </div>
+            </div>
+            
+            </div> <!-- 結束卡片並排區 -->
+            
+            <!-- 結語：下半年工作重點 -->
+            <div class="mt-4 lg:mt-6 text-center shrink-0 stagger-3">
+                <div class="inline-flex items-center gap-2 bg-slate-50 border border-slate-200 px-5 py-2.5 rounded-full text-sm lg:text-base text-slate-700 shadow-sm font-medium">
+                    <i data-lucide="check-circle-2" class="w-5 h-5 text-corp-green"></i>
+                    <span>下半年工作重點將由「制度建立」逐步轉為<strong class="text-corp-blue mx-1">「制度驗證、成效追蹤及持續優化」</strong>。</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Navigation Dots -->
+    <div class="progress-nav" id="nav-dots">
+        <div class="progress-dot active"></div>
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+    </div>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Slide Navigation Logic
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.progress-dot');
+
+        function updateSlides(index) {
+            slides.forEach((slide, i) => {
+                if (i === index) {
+                    slide.classList.add('active');
+                    runCounters(slide); // Trigger count up animation for this slide
+                } else {
+                    slide.classList.remove('active');
+                    resetCounters(slide);
+                }
+            });
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Space' || e.key === 'PageDown') {
+                e.preventDefault(); // 防止按鍵造成畫面捲動
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlides(currentSlide);
+                }
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                e.preventDefault(); // 防止按鍵造成畫面捲動
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlides(currentSlide);
+                }
+            }
+        });
+
+        // Click on dots to navigate
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentSlide = index;
+                updateSlides(currentSlide);
+            });
+        });
+
+        // Count Up Animation Logic
+        function runCounters(slide) {
+            const counters = slide.querySelectorAll('.count-up');
+            counters.forEach(counter => {
+                const target = parseFloat(counter.getAttribute('data-target'));
+                const decimals = parseInt(counter.getAttribute('data-decimals') || (target % 1 !== 0 ? 1 : 0)); // 自動判斷小數位
+                const duration = 1500; // ms
+                const frameRate = 30; // ms
+                const totalFrames = duration / frameRate;
+                let currentFrame = 0;
+
+                // Only delay slightly to wait for slide-in animation
+                setTimeout(() => {
+                    const timer = setInterval(() => {
+                        currentFrame++;
+                        const progress = currentFrame / totalFrames;
+                        // Easing out quint
+                        const easeProgress = 1 - Math.pow(1 - progress, 5); 
+                        const currentVal = (target * easeProgress).toFixed(decimals);
+                        
+                        counter.innerText = currentVal;
+
+                        if (currentFrame >= totalFrames) {
+                            clearInterval(timer);
+                            counter.innerText = target.toFixed(decimals);
+                        }
+                    }, frameRate);
+                    
+                    // Store timer ID to prevent overlaps if switching fast
+                    counter.dataset.timerId = timer;
+                }, 400); 
+            });
+        }
+
+        function resetCounters(slide) {
+            const counters = slide.querySelectorAll('.count-up');
+            counters.forEach(counter => {
+                if (counter.dataset.timerId) {
+                    clearInterval(counter.dataset.timerId);
+                }
+                counter.innerText = '0';
+            });
+        }
+
+        // Initialize first slide counters
+        updateSlides(0);
+    </script>
+</body>
+</html>
