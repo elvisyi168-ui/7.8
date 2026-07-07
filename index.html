@@ -111,44 +111,59 @@
             width: 100%;
         }
 
-        /* Custom Scrollbar for inner content */
+        /* Custom Scrollbar */
         .custom-scroll::-webkit-scrollbar { width: 6px; }
         .custom-scroll::-webkit-scrollbar-track { background: transparent; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
 
-        /* Integration Lines */
+        /* Flow Lines & Arrows */
         .integration-path {
             stroke-dasharray: 1000;
             stroke-dashoffset: 1000;
             animation: drawPath 2s ease-out forwards;
         }
-        @keyframes drawPath {
-            to { stroke-dashoffset: 0; }
-        }
-
-        /* Flow Arrow Animation */
-        .flow-arrow-right {
-            animation: moveRight 1.5s infinite;
-        }
+        @keyframes drawPath { to { stroke-dashoffset: 0; } }
+        
+        .flow-arrow-right { animation: moveRight 1.5s infinite; }
         @keyframes moveRight {
             0% { transform: translateX(0); opacity: 0.5; }
             50% { transform: translateX(6px); opacity: 1; }
             100% { transform: translateX(0); opacity: 0.5; }
         }
 
-        /* Innovation Card Hover Zoom Effect */
-        .innovation-card {
+        /* ========================================================= */
+        /* HOVER ZOOM EFFECTS */
+        /* ========================================================= */
+        
+        .zoom-parent { position: relative; }
+        .zoom-parent:hover { z-index: 40; }
+        
+        /* 大幅放大：適用於卡片密集、字體需清晰閱讀的區塊 (庭匡/恆菁/溫經理) */
+        .zoom-card {
             z-index: 10;
-            /* 延遲 z-index 縮回，避免縮小時被旁邊卡片擋住 */
             transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, z-index 0s 0.3s;
             will-change: transform;
+            position: relative;
         }
-        .innovation-card:hover {
-            transform: scale(1.35);
+        .zoom-card:hover {
+            transform: scale(1.25);
             z-index: 50;
-            /* z-index 瞬間提升到最高層 */
             transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, z-index 0s;
-            box-shadow: 0 30px 60px -10px rgba(30, 58, 138, 0.35);
+            box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.3);
+        }
+
+        /* 輕微放大：適用於不希望擋住旁邊文字的版面 (春婷/小標籤) */
+        .zoom-card-sm {
+            z-index: 10;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, z-index 0s 0.3s;
+            will-change: transform;
+            position: relative;
+        }
+        .zoom-card-sm:hover {
+            transform: scale(1.05) translateY(-3px);
+            z-index: 30;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, z-index 0s;
+            box-shadow: 0 15px 30px -8px rgba(15, 23, 42, 0.15);
         }
     </style>
 </head>
@@ -158,7 +173,7 @@
     <nav class="h-16 bg-white/90 backdrop-blur shadow-sm fixed top-0 w-full z-50 flex items-center justify-between px-8">
         <div class="flex items-center gap-3">
             <div class="bg-theme-main text-white p-1.5 rounded-lg"><i data-lucide="building-2" class="w-5 h-5"></i></div>
-            <span class="font-bold text-lg text-theme-dark tracking-wide">生福課 115上半年成果</span>
+            <span class="font-bold text-lg text-theme-dark tracking-wide">生福課 H1 成果</span>
         </div>
         <ul class="flex gap-6 text-[13px] font-medium text-slate-500">
             <li class="nav-item active" onclick="goToSlide(0)">首頁封面</li>
@@ -184,9 +199,9 @@
                     <p class="text-xl lg:text-2xl text-slate-500 font-light tracking-wide">從<strong class="text-theme-main font-medium mx-1">制度建置</strong>進入<strong class="text-theme-main font-medium mx-1">成效驗證</strong>；從<strong class="text-theme-main font-medium mx-1">單點專案</strong>走向<strong class="text-theme-main font-medium mx-1">整體系統</strong></p>
                 </div>
 
-                <div class="grid grid-cols-3 gap-8 w-full stagger-2">
+                <div class="grid grid-cols-3 gap-8 w-full stagger-2 zoom-parent">
                     <!-- Supervisor 1 -->
-                    <div class="glass-panel rounded-2xl p-6 lg:p-8 flex flex-col items-center text-center border-t-4 border-t-theme-main hover:-translate-y-2 transition-transform duration-300">
+                    <div class="glass-panel rounded-2xl p-6 lg:p-8 flex flex-col items-center text-center border-t-4 border-t-theme-main zoom-card-sm origin-bottom cursor-default">
                         <div class="w-20 h-20 rounded-full bg-theme-light text-theme-main flex items-center justify-center mb-4 shadow-sm">
                             <i data-lucide="shield-check" class="w-10 h-10"></i>
                         </div>
@@ -198,7 +213,7 @@
                         </div>
                     </div>
                     <!-- Supervisor 2 -->
-                    <div class="glass-panel rounded-2xl p-6 lg:p-8 flex flex-col items-center text-center border-t-4 border-t-theme-innovation hover:-translate-y-2 transition-transform duration-300">
+                    <div class="glass-panel rounded-2xl p-6 lg:p-8 flex flex-col items-center text-center border-t-4 border-t-theme-innovation zoom-card-sm origin-bottom cursor-default">
                         <div class="w-20 h-20 rounded-full bg-blue-50 text-theme-innovation flex items-center justify-center mb-4 shadow-sm">
                             <i data-lucide="lightbulb" class="w-10 h-10"></i>
                         </div>
@@ -210,9 +225,9 @@
                         </div>
                     </div>
                     <!-- Supervisor 3 -->
-                    <div class="glass-panel rounded-2xl p-6 lg:p-8 flex flex-col items-center text-center border-t-4 border-t-theme-edu hover:-translate-y-2 transition-transform duration-300 relative">
+                    <div class="glass-panel rounded-2xl p-6 lg:p-8 flex flex-col items-center text-center border-t-4 border-t-theme-edu relative zoom-card-sm origin-bottom cursor-default">
                         <!-- Note Badge -->
-                        <div class="absolute -top-3 -right-3 bg-amber-100 text-amber-700 border border-amber-200 text-xs px-3 py-1 rounded-full shadow-sm font-bold flex items-center gap-1">
+                        <div class="absolute -top-3 -right-3 bg-amber-100 text-amber-700 border border-amber-200 text-xs px-3 py-1 rounded-full shadow-sm font-bold flex items-center gap-1 z-20">
                             <i data-lucide="mic" class="w-3 h-3"></i> 由庭匡代報
                         </div>
                         <div class="w-20 h-20 rounded-full bg-teal-50 text-theme-edu flex items-center justify-center mb-4 shadow-sm">
@@ -236,33 +251,33 @@
             </header>
 
             <!-- Top KPIs -->
-            <div class="grid grid-cols-6 gap-4 mb-8 stagger-2 shrink-0">
-                <div class="glass-panel p-4 rounded-xl text-center border-b-4 border-b-theme-main relative overflow-hidden">
+            <div class="grid grid-cols-6 gap-4 mb-8 stagger-2 shrink-0 zoom-parent">
+                <div class="glass-panel p-4 rounded-xl text-center border-b-4 border-b-theme-main relative overflow-hidden zoom-card-sm origin-top-left cursor-default">
                     <div class="absolute top-0 right-0 bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded-bl font-bold">已達成</div>
                     <div class="text-3xl font-bold text-theme-main flex items-baseline justify-center"><span class="count-up" data-target="18">0</span><span class="text-base ml-1">家</span></div>
                     <div class="text-xs text-slate-500 font-bold mt-1">品質獎勵計畫通過</div>
                 </div>
-                <div class="glass-panel p-4 rounded-xl text-center border-b-4 border-b-theme-main relative overflow-hidden">
+                <div class="glass-panel p-4 rounded-xl text-center border-b-4 border-b-theme-main relative overflow-hidden zoom-card-sm origin-top cursor-default">
                     <div class="absolute top-0 right-0 bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded-bl font-bold">階段成果</div>
                     <div class="text-3xl font-bold text-theme-main flex items-baseline justify-center"><span class="count-up" data-target="15">0</span><span class="text-base ml-1">家</span></div>
                     <div class="text-xs text-slate-500 font-bold mt-1">減少就醫預估達標</div>
                 </div>
-                <div class="glass-panel p-4 rounded-xl text-center border-b-4 border-b-theme-main relative overflow-hidden">
+                <div class="glass-panel p-4 rounded-xl text-center border-b-4 border-b-theme-main relative overflow-hidden zoom-card-sm origin-top cursor-default">
                     <div class="absolute top-0 right-0 bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded-bl font-bold">已達成</div>
                     <div class="text-3xl font-bold text-theme-main flex items-baseline justify-center">≥<span class="count-up" data-target="80">0</span><span class="text-base ml-1">%</span></div>
                     <div class="text-xs text-slate-500 font-bold mt-1">醫護系統第一階段</div>
                 </div>
-                <div class="glass-panel p-4 rounded-xl text-center border-b-4 border-b-theme-innovation relative overflow-hidden">
+                <div class="glass-panel p-4 rounded-xl text-center border-b-4 border-b-theme-innovation relative overflow-hidden zoom-card-sm origin-top cursor-default">
                     <div class="absolute top-0 right-0 bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded-bl font-bold">已達成</div>
                     <div class="text-3xl font-bold text-theme-innovation flex items-baseline justify-center"><span class="count-up" data-target="34.4" data-decimals="1">0</span><span class="text-base ml-1">%</span></div>
                     <div class="text-xs text-slate-500 font-bold mt-1">全院約束率</div>
                 </div>
-                <div class="glass-panel p-4 rounded-xl text-center border-b-4 border-b-theme-innovation relative overflow-hidden">
+                <div class="glass-panel p-4 rounded-xl text-center border-b-4 border-b-theme-innovation relative overflow-hidden zoom-card-sm origin-top cursor-default">
                     <div class="absolute top-0 right-0 bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded-bl font-bold">階段成果</div>
                     <div class="text-3xl font-bold text-theme-innovation flex items-baseline justify-center"><span class="count-up" data-target="117">0</span><span class="text-base ml-1">人</span></div>
                     <div class="text-xs text-slate-500 font-bold mt-1">完成洗牙人數</div>
                 </div>
-                <div class="glass-panel p-4 rounded-xl text-center border-b-4 border-b-theme-edu relative overflow-hidden">
+                <div class="glass-panel p-4 rounded-xl text-center border-b-4 border-b-theme-edu relative overflow-hidden zoom-card-sm origin-top-right cursor-default">
                     <div class="absolute top-0 right-0 bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded-bl font-bold">已完成建置</div>
                     <div class="text-3xl font-bold text-theme-edu flex items-baseline justify-center"><span class="count-up" data-target="7">0</span><span class="text-base ml-1">月</span></div>
                     <div class="text-xs text-slate-500 font-bold mt-1">Online Exam上線</div>
@@ -270,9 +285,9 @@
             </div>
 
             <!-- 3 Pillars -->
-            <div class="flex-1 grid grid-cols-3 gap-6 stagger-3 min-h-0">
+            <div class="flex-1 grid grid-cols-3 gap-6 stagger-3 min-h-0 zoom-parent">
                 <!-- Line 1 -->
-                <div class="bg-white rounded-2xl p-6 shadow-sm border border-rose-100 flex flex-col">
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-rose-100 flex flex-col zoom-card-sm origin-bottom-left cursor-default">
                     <div class="flex items-center gap-3 mb-4 shrink-0">
                         <div class="bg-theme-main text-white p-2 rounded-lg"><i data-lucide="shield" class="w-6 h-6"></i></div>
                         <h2 class="text-xl font-bold text-theme-dark">品質制度線</h2>
@@ -287,7 +302,7 @@
                     </ul>
                 </div>
                 <!-- Line 2 -->
-                <div class="bg-white rounded-2xl p-6 shadow-sm border border-blue-100 flex flex-col">
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-blue-100 flex flex-col zoom-card-sm origin-bottom cursor-default">
                     <div class="flex items-center gap-3 mb-4 shrink-0">
                         <div class="bg-theme-innovation text-white p-2 rounded-lg"><i data-lucide="cpu" class="w-6 h-6"></i></div>
                         <h2 class="text-xl font-bold text-theme-dark">照護創新線</h2>
@@ -302,7 +317,7 @@
                     </ul>
                 </div>
                 <!-- Line 3 -->
-                <div class="bg-white rounded-2xl p-6 shadow-sm border border-teal-100 flex flex-col">
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-teal-100 flex flex-col zoom-card-sm origin-bottom-right cursor-default">
                     <div class="flex items-center gap-3 mb-4 shrink-0">
                         <div class="bg-theme-edu text-white p-2 rounded-lg"><i data-lucide="book-open" class="w-6 h-6"></i></div>
                         <h2 class="text-xl font-bold text-theme-dark">教育培育線</h2>
@@ -319,7 +334,7 @@
             </div>
         </section>
 
-        <!-- Slide 2: 春婷 (Quality) - Layout Maintained -->
+        <!-- Slide 2: 春婷 (Quality) - Layout Maintained, using zoom-card-sm to prevent blocking text -->
         <section class="slide flex flex-col" id="slide-2">
             <header class="mb-6 stagger-1 shrink-0 flex items-end justify-between">
                 <div>
@@ -331,247 +346,258 @@
                 </div>
             </header>
 
-            <!-- Master-Detail UI (Maintained w-1/3 & w-2/3) -->
+            <!-- Master-Detail UI -->
             <div class="flex flex-1 gap-6 min-h-0 stagger-2">
                 <!-- Left Menu (Master) -->
-                <div class="w-1/3 flex flex-col gap-3 shrink-0 overflow-y-auto custom-scroll pr-2 pb-2">
-                    <button class="text-left p-4 rounded-xl border border-slate-200 bg-white shadow-sm transition-all tab-btn active ring-2 ring-theme-main relative overflow-hidden" onclick="openTab(0)">
+                <div class="w-1/4 flex flex-col gap-3 shrink-0 overflow-y-auto custom-scroll pr-2 pb-2">
+                    <button class="text-left p-4 rounded-xl border border-slate-200 bg-white shadow-sm transition-all tab-btn active ring-2 ring-theme-main relative overflow-hidden group" onclick="openTab(0)">
                         <div class="absolute top-0 right-0 bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded-bl font-bold">已達成</div>
-                        <div class="font-bold text-lg text-slate-800 mb-1 flex justify-between">護理組長制度 <i data-lucide="users" class="w-5 h-5 text-theme-main tab-icon"></i></div>
+                        <div class="font-bold text-lg text-slate-800 mb-1 flex justify-between">護理組長制度 <i data-lucide="users" class="w-5 h-5 text-theme-main tab-icon group-hover:scale-110 transition-transform"></i></div>
                         <div class="text-sm text-slate-500">制度比個人能力更容易複製</div>
                     </button>
-                    <button class="text-left p-4 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 transition-all tab-btn opacity-70 hover:opacity-100 relative overflow-hidden" onclick="openTab(1)">
+                    <button class="text-left p-4 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 transition-all tab-btn opacity-70 hover:opacity-100 relative overflow-hidden group" onclick="openTab(1)">
                         <div class="absolute top-0 right-0 bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded-bl font-bold">已達成</div>
-                        <div class="font-bold text-lg text-slate-800 mb-1 flex justify-between">評鑑優化 2.0 <i data-lucide="folder-check" class="w-5 h-5 text-slate-400 tab-icon"></i></div>
+                        <div class="font-bold text-lg text-slate-800 mb-1 flex justify-between">評鑑優化 2.0 <i data-lucide="folder-check" class="w-5 h-5 text-slate-400 tab-icon group-hover:scale-110 transition-transform"></i></div>
                         <div class="text-sm text-slate-500">一次性準備轉常態化管理</div>
                     </button>
-                    <button class="text-left p-4 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 transition-all tab-btn opacity-70 hover:opacity-100 relative overflow-hidden" onclick="openTab(2)">
+                    <button class="text-left p-4 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 transition-all tab-btn opacity-70 hover:opacity-100 relative overflow-hidden group" onclick="openTab(2)">
                         <div class="absolute top-0 right-0 bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded-bl font-bold">已達成</div>
-                        <div class="font-bold text-lg text-slate-800 mb-1 flex justify-between">品質/感控獎勵計畫 <i data-lucide="award" class="w-5 h-5 text-slate-400 tab-icon"></i></div>
+                        <div class="font-bold text-lg text-slate-800 mb-1 flex justify-between">品質/感控獎勵 <i data-lucide="award" class="w-5 h-5 text-slate-400 tab-icon group-hover:scale-110 transition-transform"></i></div>
                         <div class="text-sm text-slate-500">18家通過，100%評估列算</div>
                     </button>
-                    <button class="text-left p-4 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 transition-all tab-btn opacity-70 hover:opacity-100 relative overflow-hidden" onclick="openTab(3)">
+                    <button class="text-left p-4 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 transition-all tab-btn opacity-70 hover:opacity-100 relative overflow-hidden group" onclick="openTab(3)">
                         <div class="absolute top-0 right-0 bg-amber-100 text-amber-700 text-[10px] px-2 py-0.5 rounded-bl font-bold">驗證中</div>
-                        <div class="font-bold text-lg text-slate-800 mb-1 flex justify-between">減少就醫優化 2.0 <i data-lucide="trending-down" class="w-5 h-5 text-slate-400 tab-icon"></i></div>
+                        <div class="font-bold text-lg text-slate-800 mb-1 flex justify-between">減少就醫優化 <i data-lucide="trending-down" class="w-5 h-5 text-slate-400 tab-icon group-hover:scale-110 transition-transform"></i></div>
                         <div class="text-sm text-slate-500">科別整合，預估15家達標</div>
                     </button>
-                    <button class="text-left p-4 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 transition-all tab-btn opacity-70 hover:opacity-100 relative overflow-hidden" onclick="openTab(4)">
+                    <button class="text-left p-4 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 transition-all tab-btn opacity-70 hover:opacity-100 relative overflow-hidden group" onclick="openTab(4)">
                         <div class="absolute top-0 right-0 bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded-bl font-bold">已達成</div>
-                        <div class="font-bold text-lg text-slate-800 mb-1 flex justify-between">新醫護系統 <i data-lucide="monitor-smartphone" class="w-5 h-5 text-slate-400 tab-icon"></i></div>
-                        <div class="text-sm text-slate-500">完成率≥80%，升級跨專業平台</div>
+                        <div class="font-bold text-lg text-slate-800 mb-1 flex justify-between">新醫護系統 <i data-lucide="monitor-smartphone" class="w-5 h-5 text-slate-400 tab-icon group-hover:scale-110 transition-transform"></i></div>
+                        <div class="text-sm text-slate-500">完成率≥80%，升級跨專業</div>
                     </button>
                 </div>
 
                 <!-- Right Content (Detail) -->
-                <div class="w-2/3 glass-panel rounded-2xl p-8 overflow-y-auto custom-scroll relative">
+                <div class="w-3/4 glass-panel rounded-2xl p-8 overflow-y-auto custom-scroll relative">
                     
                     <!-- Content 0: 護理組長 -->
-                    <div class="tab-content active" id="content-0">
-                        <div class="flex items-center justify-between mb-6">
-                            <div class="flex items-center gap-3">
-                                <div class="p-3 bg-rose-100 text-theme-main rounded-xl"><i data-lucide="users" class="w-8 h-8"></i></div>
-                                <h2 class="text-3xl font-bold text-theme-dark">護理組長制度</h2>
+                    <div class="tab-content active h-full flex flex-col justify-center zoom-parent" id="content-0">
+                        <div class="flex items-center justify-between mb-8">
+                            <div class="flex items-center gap-4">
+                                <div class="p-4 bg-rose-100 text-theme-main rounded-xl"><i data-lucide="users" class="w-10 h-10"></i></div>
+                                <h2 class="text-4xl font-bold text-theme-dark">護理組長制度</h2>
                             </div>
-                            <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded font-bold text-sm border border-emerald-200"><i data-lucide="check-circle" class="w-4 h-4 inline mr-1"></i>已達成成果</span>
+                            <span class="bg-emerald-100 text-emerald-800 px-4 py-1.5 rounded-md font-bold text-base border border-emerald-200 shadow-sm"><i data-lucide="check-circle" class="w-5 h-5 inline mr-1.5 -mt-0.5"></i>已達成成果</span>
                         </div>
-                        <div class="grid grid-cols-2 gap-6">
-                            <div>
-                                <h3 class="text-lg font-bold text-theme-main border-b-2 border-rose-100 pb-2 mb-4">建置內容</h3>
-                                <ul class="space-y-3 text-slate-700 font-medium">
-                                    <li class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-theme-main"></div> 職掌設計 (明確定義)</li>
-                                    <li class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-theme-main"></div> 評核標準 (客觀檢視)</li>
-                                    <li class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-theme-main"></div> 能力分級 (階層化發展)</li>
-                                    <li class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-theme-main"></div> 輔導機制 (確保落實)</li>
-                                    <li class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-theme-main"></div> 持續成長 (長效培訓)</li>
+                        <div class="grid grid-cols-2 gap-8">
+                            <div class="zoom-card-sm origin-left cursor-default p-2">
+                                <h3 class="text-xl font-bold text-theme-main border-b-2 border-rose-100 pb-3 mb-5">建置內容</h3>
+                                <ul class="space-y-4 text-slate-700 font-medium text-lg">
+                                    <li class="flex items-center gap-3"><div class="w-2.5 h-2.5 rounded-full bg-theme-main"></div> 職掌設計 (明確定義)</li>
+                                    <li class="flex items-center gap-3"><div class="w-2.5 h-2.5 rounded-full bg-theme-main"></div> 評核標準 (客觀檢視)</li>
+                                    <li class="flex items-center gap-3"><div class="w-2.5 h-2.5 rounded-full bg-theme-main"></div> 能力分級 (階層化發展)</li>
+                                    <li class="flex items-center gap-3"><div class="w-2.5 h-2.5 rounded-full bg-theme-main"></div> 輔導機制 (確保落實)</li>
+                                    <li class="flex items-center gap-3"><div class="w-2.5 h-2.5 rounded-full bg-theme-main"></div> 持續成長 (長效培訓)</li>
                                 </ul>
                             </div>
-                            <div class="bg-rose-50 p-5 rounded-xl border border-rose-100 flex flex-col justify-center">
-                                <h3 class="text-lg font-bold text-theme-main mb-3 flex items-center gap-2"><i data-lucide="target" class="w-5 h-5"></i> 達成價值</h3>
-                                <div class="grid grid-cols-2 gap-3 text-sm font-bold text-slate-800">
-                                    <div class="bg-white p-3 rounded shadow-sm text-center">公平制度</div>
-                                    <div class="bg-white p-3 rounded shadow-sm text-center">人才梯隊</div>
-                                    <div class="bg-white p-3 rounded shadow-sm text-center">適任管理</div>
-                                    <div class="bg-white p-3 rounded shadow-sm text-center">強化領導力</div>
+                            <div class="bg-rose-50 p-6 rounded-2xl border border-rose-100 flex flex-col justify-center zoom-card-sm origin-right cursor-default">
+                                <h3 class="text-xl font-bold text-theme-main mb-4 flex items-center gap-2"><i data-lucide="target" class="w-6 h-6"></i> 達成價值</h3>
+                                <div class="grid grid-cols-2 gap-4 text-base font-bold text-slate-800">
+                                    <div class="bg-white p-4 rounded-xl shadow-sm text-center flex flex-col items-center gap-2"><i data-lucide="scale" class="text-rose-400"></i>公平制度</div>
+                                    <div class="bg-white p-4 rounded-xl shadow-sm text-center flex flex-col items-center gap-2"><i data-lucide="trending-up" class="text-rose-400"></i>人才梯隊</div>
+                                    <div class="bg-white p-4 rounded-xl shadow-sm text-center flex flex-col items-center gap-2"><i data-lucide="clipboard-check" class="text-rose-400"></i>適任管理</div>
+                                    <div class="bg-white p-4 rounded-xl shadow-sm text-center flex flex-col items-center gap-2"><i data-lucide="crown" class="text-rose-400"></i>強化領導力</div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Content 1: 評鑑優化 -->
-                    <div class="tab-content hidden" id="content-1">
+                    <div class="tab-content hidden h-full flex flex-col justify-center zoom-parent" id="content-1">
                         <div class="flex items-center justify-between mb-6">
-                            <div class="flex items-center gap-3">
-                                <div class="p-3 bg-rose-100 text-theme-main rounded-xl"><i data-lucide="folder-check" class="w-8 h-8"></i></div>
-                                <h2 class="text-3xl font-bold text-theme-dark">評鑑準備 / 優化2.0</h2>
+                            <div class="flex items-center gap-4">
+                                <div class="p-4 bg-rose-100 text-theme-main rounded-xl"><i data-lucide="folder-check" class="w-10 h-10"></i></div>
+                                <h2 class="text-4xl font-bold text-theme-dark">評鑑準備 / 優化2.0</h2>
                             </div>
-                            <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded font-bold text-sm border border-emerald-200"><i data-lucide="check-circle" class="w-4 h-4 inline mr-1"></i>已達成成果</span>
+                            <span class="bg-emerald-100 text-emerald-800 px-4 py-1.5 rounded-md font-bold text-base border border-emerald-200 shadow-sm"><i data-lucide="check-circle" class="w-5 h-5 inline mr-1.5 -mt-0.5"></i>已達成成果</span>
                         </div>
-                        <p class="text-slate-600 mb-6 font-medium text-lg">從一次性準備，轉為常態化管理。</p>
+                        <p class="text-slate-600 mb-8 font-medium text-xl border-l-4 border-theme-main pl-4">從一次性準備，轉為常態化管理。</p>
                         
-                        <div class="flex flex-col gap-4 mb-8">
-                            <div class="bg-white border border-slate-200 p-4 rounded-xl flex items-start gap-3 shadow-sm">
-                                <i data-lucide="database" class="w-6 h-6 text-theme-main shrink-0 mt-1"></i>
+                        <div class="grid grid-cols-3 gap-5 mb-10">
+                            <div class="bg-white border border-slate-200 p-5 rounded-xl flex flex-col gap-3 shadow-sm zoom-card-sm origin-bottom-left cursor-default">
+                                <i data-lucide="database" class="w-8 h-8 text-theme-main"></i>
                                 <div>
-                                    <h4 class="font-bold text-slate-800">資料中央化</h4>
-                                    <p class="text-sm text-slate-500">逐步歸檔於中央資料櫃，降低重複補件與版本混亂。</p>
+                                    <h4 class="font-bold text-slate-800 text-lg mb-1">資料中央化</h4>
+                                    <p class="text-sm text-slate-500 leading-relaxed">逐步歸檔於中央資料櫃，降低重複補件與版本混亂。</p>
                                 </div>
                             </div>
-                            <div class="bg-white border border-slate-200 p-4 rounded-xl flex items-start gap-3 shadow-sm">
-                                <i data-lucide="hammer" class="w-6 h-6 text-theme-main shrink-0 mt-1"></i>
+                            <div class="bg-white border border-slate-200 p-5 rounded-xl flex flex-col gap-3 shadow-sm zoom-card-sm origin-bottom cursor-default">
+                                <i data-lucide="hammer" class="w-8 h-8 text-theme-main"></i>
                                 <div>
-                                    <h4 class="font-bold text-slate-800">工作坊建立能力</h4>
-                                    <p class="text-sm text-slate-500">透過資料與應答工作坊，讓機構知道要準備什麼、怎麼說清楚。</p>
+                                    <h4 class="font-bold text-slate-800 text-lg mb-1">工作坊建立能力</h4>
+                                    <p class="text-sm text-slate-500 leading-relaxed">透過資料與應答工作坊，讓機構知道要準備什麼、怎麼說清楚。</p>
                                 </div>
                             </div>
-                            <div class="bg-white border border-slate-200 p-4 rounded-xl flex items-start gap-3 shadow-sm">
-                                <i data-lucide="check-square" class="w-6 h-6 text-theme-main shrink-0 mt-1"></i>
+                            <div class="bg-white border border-slate-200 p-5 rounded-xl flex flex-col gap-3 shadow-sm zoom-card-sm origin-bottom-right cursor-default">
+                                <i data-lucide="check-square" class="w-8 h-8 text-theme-main"></i>
                                 <div>
-                                    <h4 class="font-bold text-slate-800">交叉檢核</h4>
-                                    <p class="text-sm text-slate-500">以課級分工查檢，先發現缺口再補件。</p>
+                                    <h4 class="font-bold text-slate-800 text-lg mb-1">交叉檢核</h4>
+                                    <p class="text-sm text-slate-500 leading-relaxed">以課級分工查檢，先發現缺口再補件。</p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Process Flow -->
-                        <div class="flex items-center justify-between bg-slate-50 p-4 rounded-xl border border-slate-200">
-                            <div class="text-center"><div class="w-10 h-10 rounded-full bg-theme-main text-white flex items-center justify-center mx-auto mb-1 font-bold">1</div><span class="text-sm font-bold text-slate-700">準備</span></div>
-                            <i data-lucide="arrow-right" class="text-slate-300"></i>
-                            <div class="text-center"><div class="w-10 h-10 rounded-full bg-theme-main text-white flex items-center justify-center mx-auto mb-1 font-bold">2</div><span class="text-sm font-bold text-slate-700">查核</span></div>
-                            <i data-lucide="arrow-right" class="text-slate-300"></i>
-                            <div class="text-center"><div class="w-10 h-10 rounded-full bg-theme-main text-white flex items-center justify-center mx-auto mb-1 font-bold">3</div><span class="text-sm font-bold text-slate-700">補件</span></div>
-                            <i data-lucide="arrow-right" class="text-slate-300"></i>
-                            <div class="text-center"><div class="w-10 h-10 rounded-full bg-theme-main text-white flex items-center justify-center mx-auto mb-1 font-bold">4</div><span class="text-sm font-bold text-slate-700">應答</span></div>
-                            <i data-lucide="arrow-right" class="text-slate-300"></i>
-                            <div class="text-center"><div class="w-10 h-10 rounded-full bg-theme-main text-white flex items-center justify-center mx-auto mb-1 font-bold">5</div><span class="text-sm font-bold text-slate-700">送件</span></div>
+                        <h4 class="font-bold text-slate-800 mb-3 text-lg">標準化應答流程</h4>
+                        <div class="flex items-center justify-between bg-slate-50 p-6 rounded-xl border border-slate-200 zoom-card-sm origin-bottom cursor-default">
+                            <div class="text-center"><div class="w-12 h-12 rounded-full bg-theme-main text-white flex items-center justify-center mx-auto mb-2 font-bold text-xl shadow-md">1</div><span class="text-base font-bold text-slate-700">準備</span></div>
+                            <i data-lucide="arrow-right" class="text-slate-300 w-6 h-6"></i>
+                            <div class="text-center"><div class="w-12 h-12 rounded-full bg-theme-main text-white flex items-center justify-center mx-auto mb-2 font-bold text-xl shadow-md">2</div><span class="text-base font-bold text-slate-700">查核</span></div>
+                            <i data-lucide="arrow-right" class="text-slate-300 w-6 h-6"></i>
+                            <div class="text-center"><div class="w-12 h-12 rounded-full bg-theme-main text-white flex items-center justify-center mx-auto mb-2 font-bold text-xl shadow-md">3</div><span class="text-base font-bold text-slate-700">補件</span></div>
+                            <i data-lucide="arrow-right" class="text-slate-300 w-6 h-6"></i>
+                            <div class="text-center"><div class="w-12 h-12 rounded-full bg-theme-main text-white flex items-center justify-center mx-auto mb-2 font-bold text-xl shadow-md">4</div><span class="text-base font-bold text-slate-700">應答</span></div>
+                            <i data-lucide="arrow-right" class="text-slate-300 w-6 h-6"></i>
+                            <div class="text-center"><div class="w-12 h-12 rounded-full bg-theme-main text-white flex items-center justify-center mx-auto mb-2 font-bold text-xl shadow-md">5</div><span class="text-base font-bold text-slate-700">送件</span></div>
                         </div>
                     </div>
 
                     <!-- Content 2: 品質獎勵 -->
-                    <div class="tab-content hidden" id="content-2">
-                        <div class="flex items-center justify-between mb-6">
-                            <div class="flex items-center gap-3">
-                                <div class="p-3 bg-rose-100 text-theme-main rounded-xl"><i data-lucide="award" class="w-8 h-8"></i></div>
-                                <h2 class="text-3xl font-bold text-theme-dark">品質 / 感控獎勵計畫</h2>
+                    <div class="tab-content hidden h-full flex flex-col justify-center zoom-parent" id="content-2">
+                        <div class="flex items-center justify-between mb-8">
+                            <div class="flex items-center gap-4">
+                                <div class="p-4 bg-rose-100 text-theme-main rounded-xl"><i data-lucide="award" class="w-10 h-10"></i></div>
+                                <h2 class="text-4xl font-bold text-theme-dark">品質 / 感控獎勵計畫</h2>
                             </div>
-                            <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded font-bold text-sm border border-emerald-200"><i data-lucide="check-circle" class="w-4 h-4 inline mr-1"></i>已達成成果</span>
+                            <span class="bg-emerald-100 text-emerald-800 px-4 py-1.5 rounded-md font-bold text-base border border-emerald-200 shadow-sm"><i data-lucide="check-circle" class="w-5 h-5 inline mr-1.5 -mt-0.5"></i>已達成成果</span>
                         </div>
                         
-                        <div class="grid grid-cols-2 gap-4 mb-6">
-                            <div class="bg-rose-50 p-4 rounded-xl border border-rose-100 text-center">
-                                <div class="text-4xl font-bold text-theme-main mb-1">18<span class="text-xl">家</span></div>
-                                <div class="text-sm font-bold text-slate-700">品質獎勵計畫通過</div>
-                                <div class="text-xs text-slate-500 mt-1">(新增通過3家)</div>
+                        <div class="grid grid-cols-2 gap-6 mb-8">
+                            <div class="bg-rose-50 p-6 rounded-2xl border border-rose-100 text-center shadow-sm zoom-card-sm origin-bottom-left cursor-default">
+                                <div class="text-5xl font-bold text-theme-main mb-2">18<span class="text-2xl">家</span></div>
+                                <div class="text-lg font-bold text-slate-700">品質獎勵計畫通過</div>
+                                <div class="text-sm text-slate-500 mt-1 font-medium">(今年新增通過 3 家)</div>
                             </div>
-                            <div class="bg-rose-50 p-4 rounded-xl border border-rose-100 text-center">
-                                <div class="text-4xl font-bold text-theme-main mb-1">100<span class="text-xl">%</span></div>
-                                <div class="text-sm font-bold text-slate-700">全人評估列算</div>
-                                <div class="text-xs text-slate-500 mt-1">5-6月穩定達標</div>
-                            </div>
-                        </div>
-
-                        <div class="space-y-4">
-                            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                                <h4 class="font-bold text-slate-800 mb-2 flex items-center gap-2"><i data-lucide="shield-alert" class="w-4 h-4 text-theme-main"></i> 4項感控重點指標</h4>
-                                <p class="text-slate-600 text-sm">教育、查核、演練、專責機制建立。</p>
-                            </div>
-                            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                                <h4 class="font-bold text-slate-800 mb-2 flex items-center gap-2"><i data-lucide="bar-chart" class="w-4 h-4 text-theme-main"></i> 2項新增品質指標納管</h4>
-                                <p class="text-slate-600 text-sm">指標三、指標四納入管控與資料留存現場查核，避免只做計畫無成果。</p>
+                            <div class="bg-rose-50 p-6 rounded-2xl border border-rose-100 text-center shadow-sm zoom-card-sm origin-bottom-right cursor-default">
+                                <div class="text-5xl font-bold text-theme-main mb-2">100<span class="text-2xl">%</span></div>
+                                <div class="text-lg font-bold text-slate-700">全人評估列算</div>
+                                <div class="text-sm text-slate-500 mt-1 font-medium">5-6月穩定達標</div>
                             </div>
                         </div>
 
-                        <div class="mt-6 border-l-4 border-amber-500 pl-4 py-1 bg-amber-50 rounded-r">
-                            <p class="text-sm font-bold text-amber-800">下半年驗證重點</p>
-                            <p class="text-sm text-amber-700">月度查核、缺口補件、成果佐證，讓指標真正落地。</p>
+                        <div class="grid grid-cols-2 gap-6 mb-6">
+                            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm zoom-card-sm origin-top-left cursor-default">
+                                <h4 class="font-bold text-slate-800 mb-3 flex items-center gap-2 text-lg"><i data-lucide="shield-alert" class="w-5 h-5 text-theme-main"></i> 4項感控重點指標</h4>
+                                <p class="text-slate-600 text-base leading-relaxed">教育、查核、演練、專責機制建立。</p>
+                            </div>
+                            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm zoom-card-sm origin-top-right cursor-default">
+                                <h4 class="font-bold text-slate-800 mb-3 flex items-center gap-2 text-lg"><i data-lucide="bar-chart" class="w-5 h-5 text-theme-main"></i> 2項新增品質指標納管</h4>
+                                <p class="text-slate-600 text-base leading-relaxed">指標三、指標四納入管控與資料留存現場查核，避免只做計畫無成果。</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-auto border-l-4 border-amber-500 pl-5 py-3 bg-amber-50 rounded-r-lg zoom-card-sm origin-top cursor-default">
+                            <p class="text-base font-bold text-amber-800 mb-1 flex items-center gap-2"><i data-lucide="target" class="w-4 h-4"></i>下半年驗證重點</p>
+                            <p class="text-base text-amber-700">透過月度查核、缺口補件與成果佐證，確保各項指標真正落地於照護現場。</p>
                         </div>
                     </div>
 
                     <!-- Content 3: 減少就醫 -->
-                    <div class="tab-content hidden" id="content-3">
+                    <div class="tab-content hidden h-full flex flex-col justify-center zoom-parent" id="content-3">
                         <div class="flex items-center justify-between mb-6">
-                            <div class="flex items-center gap-3">
-                                <div class="p-3 bg-rose-100 text-theme-main rounded-xl"><i data-lucide="trending-down" class="w-8 h-8"></i></div>
-                                <h2 class="text-3xl font-bold text-theme-dark">減少就醫優化 2.0</h2>
+                            <div class="flex items-center gap-4">
+                                <div class="p-4 bg-rose-100 text-theme-main rounded-xl"><i data-lucide="trending-down" class="w-10 h-10"></i></div>
+                                <h2 class="text-4xl font-bold text-theme-dark">減少就醫優化 2.0</h2>
                             </div>
-                            <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded font-bold text-sm border border-amber-200"><i data-lucide="clock" class="w-4 h-4 inline mr-1"></i>階段驗證中</span>
+                            <span class="bg-amber-100 text-amber-800 px-4 py-1.5 rounded-md font-bold text-base border border-amber-200 shadow-sm"><i data-lucide="clock" class="w-5 h-5 inline mr-1.5 -mt-0.5"></i>階段驗證中</span>
                         </div>
 
-                        <p class="text-slate-600 mb-4 font-medium text-lg">以科別整合與個案追蹤，降低不必要門診。</p>
+                        <p class="text-slate-600 mb-6 font-medium text-xl border-l-4 border-theme-main pl-4">以科別整合與個案追蹤，精準降低不必要門診。</p>
                         
-                        <div class="flex items-center gap-6 mb-6">
-                            <div class="text-center">
-                                <div class="text-4xl font-bold text-theme-main">15<span class="text-xl">家</span></div>
-                                <div class="text-sm font-bold text-slate-700">上半年預估達標</div>
+                        <div class="flex items-center gap-8 mb-8 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm zoom-card-sm origin-left cursor-default">
+                            <div class="text-center w-1/3 shrink-0">
+                                <div class="text-5xl font-bold text-theme-main mb-1">15<span class="text-2xl text-slate-600 ml-1">家</span></div>
+                                <div class="text-base font-bold text-slate-700">上半年預估達標</div>
                             </div>
-                            <div class="h-10 w-px bg-slate-300"></div>
-                            <div>
-                                <div class="text-sm text-slate-700"><span class="font-bold text-emerald-600">+3家 新增通過:</span> 8D, 5C, 三館</div>
-                                <div class="text-sm text-slate-700 mt-1"><span class="font-bold text-rose-600">7家 待強化 (114未過):</span> 8C, 8D, 5C, 5D, 一館, 二館, 三館</div>
+                            <div class="h-20 w-px bg-slate-200"></div>
+                            <div class="w-2/3">
+                                <div class="flex items-start gap-3 mb-3">
+                                    <div class="bg-emerald-100 text-emerald-700 font-bold px-2 py-1 rounded text-sm shrink-0 mt-0.5">+3家 新增通過</div>
+                                    <div class="text-base text-slate-700 font-medium leading-tight pt-1">8D, 5C, 三館 (輔導後改善)</div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <div class="bg-rose-100 text-rose-700 font-bold px-2 py-1 rounded text-sm shrink-0 mt-0.5">7家 待強化列管</div>
+                                    <div class="text-base text-slate-700 font-medium leading-tight pt-1">8C, 8D, 5C, 5D, 一館, 二館, 三館</div>
+                                </div>
                             </div>
                         </div>
                         
-                        <div class="bg-rose-50 p-4 rounded-xl border border-rose-100 mb-6">
-                            <div class="text-sm font-bold text-theme-main mb-2">年度下降目標：<span class="text-xl mx-1">1500</span> 次</div>
+                        <div class="bg-rose-50 p-4 rounded-xl border border-rose-100 mb-8 inline-block shadow-sm zoom-card-sm origin-left cursor-default">
+                            <div class="text-base font-bold text-theme-main flex items-center gap-2">
+                                <i data-lucide="target" class="w-5 h-5"></i> 年度下降總目標：<span class="text-2xl mx-1 bg-white px-3 py-0.5 rounded shadow-sm">1500</span> 次
+                            </div>
                         </div>
 
-                        <h4 class="font-bold text-slate-800 mb-3">管理流程</h4>
-                        <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 mb-6 text-sm font-bold shadow-sm">
-                            <span>每月盤點</span><i data-lucide="chevron-right" class="w-4 h-4 text-theme-main"></i>
-                            <span>名單優先處理</span><i data-lucide="chevron-right" class="w-4 h-4 text-theme-main"></i>
-                            <span>科別整合</span><i data-lucide="chevron-right" class="w-4 h-4 text-theme-main"></i>
-                            <span>代拿藥2.0</span><i data-lucide="chevron-right" class="w-4 h-4 text-theme-main"></i>
-                            <span class="text-theme-main">完成率追蹤</span>
+                        <h4 class="font-bold text-slate-800 mb-3 text-lg">標準化管理流程</h4>
+                        <div class="flex items-center justify-between bg-slate-800 p-4 rounded-xl border border-slate-700 mb-6 text-base font-bold text-slate-300 shadow-md zoom-card-sm origin-bottom cursor-default">
+                            <span class="text-white">每月盤點</span><i data-lucide="chevron-right" class="w-5 h-5 text-rose-400"></i>
+                            <span class="text-white">名單優先處理</span><i data-lucide="chevron-right" class="w-5 h-5 text-rose-400"></i>
+                            <span class="text-white">科別整合</span><i data-lucide="chevron-right" class="w-5 h-5 text-rose-400"></i>
+                            <span class="text-white">代拿藥2.0</span><i data-lucide="chevron-right" class="w-5 h-5 text-rose-400"></i>
+                            <span class="text-rose-300">完成率追蹤</span>
                         </div>
 
-                        <div class="bg-slate-50 p-3 rounded border border-slate-200 text-xs text-slate-600">
-                            <span class="font-bold text-amber-600">風險提醒：</span> 隱藏門診、家屬全自陪不易列算、天氣變化、復健/巡診支援落差。
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-sm text-slate-600 font-medium flex gap-3 items-start zoom-card-sm origin-bottom cursor-default">
+                            <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-500 shrink-0 mt-0.5"></i>
+                            <p><span class="font-bold text-amber-700">現場風險提醒：</span>需留意隱藏門診、家屬全自陪不易列算、天氣變化導致看診增加、以及復健/巡診支援落差等不可控因素。</p>
                         </div>
                     </div>
 
                     <!-- Content 4: 新醫護系統 -->
-                    <div class="tab-content hidden" id="content-4">
-                        <div class="flex items-center justify-between mb-6">
-                            <div class="flex items-center gap-3">
-                                <div class="p-3 bg-rose-100 text-theme-main rounded-xl"><i data-lucide="monitor-smartphone" class="w-8 h-8"></i></div>
-                                <h2 class="text-3xl font-bold text-theme-dark">新醫護系統</h2>
+                    <div class="tab-content hidden h-full flex flex-col justify-center zoom-parent" id="content-4">
+                        <div class="flex items-center justify-between mb-8">
+                            <div class="flex items-center gap-4">
+                                <div class="p-4 bg-rose-100 text-theme-main rounded-xl"><i data-lucide="monitor-smartphone" class="w-10 h-10"></i></div>
+                                <h2 class="text-4xl font-bold text-theme-dark">新醫護系統</h2>
                             </div>
-                            <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded font-bold text-sm border border-emerald-200"><i data-lucide="check-circle" class="w-4 h-4 inline mr-1"></i>已達成成果</span>
+                            <span class="bg-emerald-100 text-emerald-800 px-4 py-1.5 rounded-md font-bold text-base border border-emerald-200 shadow-sm"><i data-lucide="check-circle" class="w-5 h-5 inline mr-1.5 -mt-0.5"></i>已達成成果</span>
                         </div>
 
-                        <p class="text-slate-600 mb-6 font-medium text-lg">從表單工具，升級為跨專業管理平台。</p>
+                        <p class="text-slate-600 mb-8 font-medium text-xl border-l-4 border-theme-main pl-4">從單一表單工具，升級為跨專業管理平台。</p>
                         
-                        <div class="flex items-center gap-4 mb-6">
-                            <div class="bg-rose-50 p-5 rounded-xl border border-rose-100 text-center flex-1 relative overflow-hidden">
-                                <div class="absolute top-0 right-0 bg-emerald-200 text-emerald-800 text-[10px] px-2 py-0.5 rounded-bl font-bold">指標達成</div>
-                                <div class="text-5xl font-bold text-theme-main mb-1">≥80<span class="text-2xl">%</span></div>
-                                <div class="text-sm font-bold text-slate-700">第一階段完成率</div>
+                        <div class="flex items-center gap-6 mb-8">
+                            <div class="bg-rose-50 p-6 rounded-2xl border border-rose-100 text-center flex-1 relative overflow-hidden shadow-sm zoom-card-sm origin-bottom-left cursor-default">
+                                <div class="absolute top-0 right-0 bg-emerald-600 text-white text-[10px] px-3 py-1 rounded-bl-xl font-bold z-20">指標達成</div>
+                                <div class="text-6xl font-bold text-theme-main mb-2">≥80<span class="text-3xl">%</span></div>
+                                <div class="text-lg font-bold text-slate-700">第一階段完成率</div>
                             </div>
-                            <div class="bg-rose-50 p-5 rounded-xl border border-rose-100 text-center flex-1">
-                                <div class="text-5xl font-bold text-theme-main mb-1">10<span class="text-2xl">組</span></div>
-                                <div class="text-sm font-bold text-slate-700">護理站設備補強</div>
+                            <div class="bg-rose-50 p-6 rounded-2xl border border-rose-100 text-center flex-1 shadow-sm zoom-card-sm origin-bottom-right cursor-default">
+                                <div class="text-6xl font-bold text-theme-main mb-2">10<span class="text-3xl">組</span></div>
+                                <div class="text-lg font-bold text-slate-700">護理站設備補強</div>
                             </div>
                         </div>
 
-                        <div class="space-y-3">
-                            <div class="flex items-start gap-3 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                                <i data-lucide="settings" class="w-5 h-5 text-theme-main mt-0.5 shrink-0"></i>
+                        <h3 class="text-lg font-bold text-slate-800 mb-4">系統升級重點</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-4 bg-white p-5 rounded-xl border border-slate-200 shadow-sm zoom-card-sm origin-top cursor-default">
+                                <div class="bg-slate-100 p-2 rounded-lg shrink-0"><i data-lucide="settings" class="w-6 h-6 text-theme-main"></i></div>
                                 <div>
-                                    <h4 class="font-bold text-slate-800">批次後臺設定匯入</h4>
-                                    <p class="text-sm text-slate-500">降低人工設定落差，加速上線效率。</p>
+                                    <h4 class="font-bold text-slate-800 text-lg mb-1">批次後臺設定匯入</h4>
+                                    <p class="text-base text-slate-500">降低人工設定落差，大幅加速各館上線效率。</p>
                                 </div>
                             </div>
-                            <div class="flex items-start gap-3 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                                <i data-lucide="bed-double" class="w-5 h-5 text-theme-main mt-0.5 shrink-0"></i>
+                            <div class="flex items-start gap-4 bg-white p-5 rounded-xl border border-slate-200 shadow-sm zoom-card-sm origin-top cursor-default">
+                                <div class="bg-slate-100 p-2 rounded-lg shrink-0"><i data-lucide="bed-double" class="w-6 h-6 text-theme-main"></i></div>
                                 <div>
-                                    <h4 class="font-bold text-slate-800">智慧床墊操作支援</h4>
-                                    <p class="text-sm text-slate-500">結合系統通報，提升現場回應速度。</p>
+                                    <h4 class="font-bold text-slate-800 text-lg mb-1">智慧床墊操作支援</h4>
+                                    <p class="text-base text-slate-500">系統直接介接床墊通報，提升現場回應速度。</p>
                                 </div>
                             </div>
-                            <div class="flex items-start gap-3 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                                <i data-lucide="git-merge" class="w-5 h-5 text-theme-main mt-0.5 shrink-0"></i>
+                            <div class="flex items-start gap-4 bg-white p-5 rounded-xl border border-slate-200 shadow-sm zoom-card-sm origin-top cursor-default">
+                                <div class="bg-slate-100 p-2 rounded-lg shrink-0"><i data-lucide="git-merge" class="w-6 h-6 text-theme-main"></i></div>
                                 <div>
-                                    <h4 class="font-bold text-slate-800">跨專業一致流程建立</h4>
-                                    <p class="text-sm text-slate-500">涵蓋生命徵象、交班、就醫預約、派車與跨專業紀錄。</p>
+                                    <h4 class="font-bold text-slate-800 text-lg mb-1">跨專業一致流程建立</h4>
+                                    <p class="text-base text-slate-500">涵蓋生命徵象、交班、就醫預約、派車與跨專業紀錄的一站式平台。</p>
                                 </div>
                             </div>
                         </div>
@@ -593,19 +619,19 @@
             </header>
 
             <!-- Responsive Flex Container ensuring no overlap/overflow -->
-            <div class="flex-1 w-full max-w-6xl mx-auto flex flex-col justify-center gap-4 lg:gap-6 relative min-h-0 py-2 stagger-2">
+            <div class="flex-1 w-full max-w-6xl mx-auto flex flex-col justify-center gap-4 lg:gap-6 relative min-h-0 py-2 stagger-2 innovation-parent">
                 
                 <!-- Top Row -->
-                <div class="flex items-stretch gap-4 flex-1 min-h-0">
+                <div class="flex items-stretch gap-4 relative z-10 flex-1 min-h-0">
                     
                     <!-- Card 1 -->
-                    <div class="flex-1 bg-white rounded-2xl p-4 lg:p-5 shadow-sm border-t-4 border-theme-innovation flex flex-col relative z-10 overflow-hidden min-h-0 innovation-card origin-left cursor-default">
-                        <div class="absolute top-0 right-0 bg-emerald-100 text-emerald-800 text-[10px] px-2 py-0.5 rounded-bl font-bold shrink-0">已完成建置</div>
-                        <div class="flex items-center justify-between mb-2 mt-1 shrink-0">
+                    <div class="flex-1 bg-white rounded-2xl p-4 lg:p-5 shadow-sm border-t-4 border-theme-innovation flex flex-col relative z-10 overflow-hidden min-h-0 zoom-card origin-left cursor-default">
+                        <div class="absolute top-0 right-0 bg-emerald-600 text-white text-xs lg:text-sm px-3 py-1 rounded-bl-xl font-bold shadow-md tracking-wider shrink-0 z-20">已完成建置</div>
+                        <div class="flex items-center justify-between mb-2 mt-1 shrink-0 relative z-10">
                             <h3 class="font-bold text-lg text-theme-dark">115照服員新制</h3>
                             <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-theme-innovation"><i data-lucide="users-cog" class="w-4 h-4"></i></div>
                         </div>
-                        <div class="flex-1 overflow-y-auto custom-scroll pr-1 min-h-0">
+                        <div class="flex-1 overflow-y-auto custom-scroll pr-1 min-h-0 relative z-10">
                             <ul class="text-[13px] text-slate-600 space-y-1 list-disc pl-4 font-medium mb-3">
                                 <li>分析現場，重新計算工時</li>
                                 <li>重新盤點工作內容</li>
@@ -631,14 +657,14 @@
                     </div>
 
                     <!-- Card 2 -->
-                    <div class="flex-1 bg-white rounded-2xl p-4 lg:p-5 shadow-sm border-t-4 border-theme-innovation flex flex-col relative z-10 overflow-hidden min-h-0 innovation-card origin-center cursor-default">
-                        <div class="absolute top-0 right-0 bg-emerald-100 text-emerald-800 text-[10px] px-2 py-0.5 rounded-bl font-bold shrink-0">達成成果</div>
-                        <div class="flex items-center justify-between mb-2 mt-1 shrink-0">
+                    <div class="flex-1 bg-white rounded-2xl p-4 lg:p-5 shadow-sm border-t-4 border-theme-innovation flex flex-col relative z-10 overflow-hidden min-h-0 zoom-card origin-center cursor-default">
+                        <div class="absolute top-0 right-0 bg-emerald-600 text-white text-xs lg:text-sm px-3 py-1 rounded-bl-xl font-bold shadow-md tracking-wider shrink-0 z-20">達成成果</div>
+                        <div class="flex items-center justify-between mb-2 mt-1 shrink-0 relative z-10">
                             <h3 class="font-bold text-lg text-theme-dark">約束 3.0</h3>
                             <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-theme-innovation"><i data-lucide="link" class="w-4 h-4"></i></div>
                         </div>
-                        <div class="mb-2 text-2xl font-bold text-theme-innovation shrink-0">34.4% <span class="text-[11px] font-normal text-slate-500 uppercase tracking-wider block">全院約束率 (達標 <35%)</span></div>
-                        <div class="flex-1 overflow-y-auto custom-scroll pr-1 min-h-0">
+                        <div class="mb-2 text-2xl font-bold text-theme-innovation shrink-0 relative z-10">34.4% <span class="text-[11px] font-normal text-slate-500 uppercase tracking-wider block">全院約束率 (達標 <35%)</span></div>
+                        <div class="flex-1 overflow-y-auto custom-scroll pr-1 min-h-0 relative z-10">
                             <ul class="text-[13px] text-slate-600 space-y-1.5 list-disc pl-4 font-medium">
                                 <li>AI 工具輔助現場評估</li>
                                 <li>導入阿爾傑模式解管路</li>
@@ -653,14 +679,14 @@
                     </div>
 
                     <!-- Card 3 -->
-                    <div class="flex-1 bg-white rounded-2xl p-4 lg:p-5 shadow-sm border-t-4 border-theme-innovation flex flex-col relative z-10 overflow-hidden min-h-0 innovation-card origin-right cursor-default">
-                        <div class="absolute top-0 right-0 bg-emerald-100 text-emerald-800 text-[10px] px-2 py-0.5 rounded-bl font-bold shrink-0">達成成果</div>
-                        <div class="flex items-center justify-between mb-2 mt-1 shrink-0">
+                    <div class="flex-1 bg-white rounded-2xl p-4 lg:p-5 shadow-sm border-t-4 border-theme-innovation flex flex-col relative z-10 overflow-hidden min-h-0 zoom-card origin-right cursor-default">
+                        <div class="absolute top-0 right-0 bg-emerald-600 text-white text-xs lg:text-sm px-3 py-1 rounded-bl-xl font-bold shadow-md tracking-wider shrink-0 z-20">達成成果</div>
+                        <div class="flex items-center justify-between mb-2 mt-1 shrink-0 relative z-10">
                             <h3 class="font-bold text-lg text-theme-dark leading-tight">口腔-吞嚥-呼吸<br><span class="text-sm text-theme-innovation">智慧照護循環</span></h3>
                             <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-theme-innovation"><i data-lucide="smile" class="w-4 h-4"></i></div>
                         </div>
-                        <div class="mb-2 text-xl font-bold text-theme-innovation shrink-0">117人 <span class="text-[11px] font-normal text-slate-500 block uppercase tracking-wider">洗牙KPI達標中 (年度目標300人)</span></div>
-                        <div class="flex-1 overflow-y-auto custom-scroll pr-1 min-h-0">
+                        <div class="mb-2 text-xl font-bold text-theme-innovation shrink-0 relative z-10">117人 <span class="text-[11px] font-normal text-slate-500 block uppercase tracking-wider">洗牙KPI達標中 (年度目標300人)</span></div>
+                        <div class="flex-1 overflow-y-auto custom-scroll pr-1 min-h-0 relative z-10">
                             <ul class="text-[13px] text-slate-600 space-y-1.5 list-disc pl-4 font-medium">
                                 <li>建立口腔照護流程</li>
                                 <li>整合語言治療與吞嚥訓練</li>
@@ -683,13 +709,13 @@
                 <div class="flex items-stretch gap-4 flex-1 min-h-0 flex-row-reverse">
                     
                     <!-- Card 4 (Placed visually on the right) -->
-                    <div class="flex-1 bg-white rounded-2xl p-4 lg:p-5 shadow-sm border-b-4 border-theme-innovation flex flex-col relative z-10 overflow-hidden min-h-0 innovation-card origin-right cursor-default">
-                        <div class="absolute top-0 right-0 bg-amber-100 text-amber-800 text-[10px] px-2 py-0.5 rounded-bl font-bold shrink-0">導入驗證中</div>
-                        <div class="flex items-center justify-between mb-2 mt-1 shrink-0">
+                    <div class="flex-1 bg-white rounded-2xl p-4 lg:p-5 shadow-sm border-b-4 border-theme-innovation flex flex-col relative z-10 overflow-hidden min-h-0 zoom-card origin-right cursor-default">
+                        <div class="absolute top-0 right-0 bg-amber-500 text-white text-xs lg:text-sm px-3 py-1 rounded-bl-xl font-bold shadow-md tracking-wider shrink-0 z-20">導入驗證中</div>
+                        <div class="flex items-center justify-between mb-2 mt-1 shrink-0 relative z-10">
                             <h3 class="font-bold text-lg text-theme-dark">智慧床墊</h3>
                             <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-theme-innovation"><i data-lucide="bed-double" class="w-4 h-4"></i></div>
                         </div>
-                        <div class="flex-1 overflow-y-auto custom-scroll pr-1 min-h-0">
+                        <div class="flex-1 overflow-y-auto custom-scroll pr-1 min-h-0 relative z-10">
                             <ul class="text-[13px] text-slate-600 space-y-1.5 list-disc pl-4 font-medium">
                                 <li><span class="font-bold text-theme-innovation">全院佈建進度達 50%</span></li>
                                 <li>前期採購由創發主責</li>
@@ -706,20 +732,20 @@
                     </div>
 
                     <!-- Card 5 -->
-                    <div class="flex-[1.2] bg-white rounded-2xl p-4 lg:p-5 shadow-sm border-b-4 border-theme-innovation flex flex-col relative z-10 overflow-hidden min-h-0 innovation-card origin-center cursor-default">
-                        <div class="absolute top-0 right-0 bg-emerald-100 text-emerald-800 text-[10px] px-2 py-0.5 rounded-bl font-bold shrink-0">達成成果</div>
-                        <div class="flex items-center justify-between mb-3 mt-1 shrink-0">
+                    <div class="flex-[1.2] bg-white rounded-2xl p-4 lg:p-5 shadow-sm border-b-4 border-theme-innovation flex flex-col relative z-10 overflow-hidden min-h-0 zoom-card origin-center cursor-default">
+                        <div class="absolute top-0 right-0 bg-emerald-600 text-white text-xs lg:text-sm px-3 py-1 rounded-bl-xl font-bold shadow-md tracking-wider shrink-0 z-20">達成成果</div>
+                        <div class="flex items-center justify-between mb-3 mt-1 shrink-0 relative z-10">
                             <h3 class="font-bold text-lg text-theme-dark">AI應用與數位化</h3>
                             <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-theme-innovation"><i data-lucide="cpu" class="w-4 h-4"></i></div>
                         </div>
                         
                         <!-- KPI Number Block -->
-                        <div class="flex items-center gap-3 bg-blue-50 p-2 rounded-lg mb-3 shrink-0">
+                        <div class="flex items-center gap-3 bg-blue-50 p-2 rounded-lg mb-3 shrink-0 relative z-10">
                             <div class="text-3xl font-black text-theme-innovation pl-2">8<span class="text-sm font-medium ml-1">項</span></div>
                             <div class="text-[11px] font-bold text-slate-700 uppercase tracking-wider leading-tight">已完成 AI 工具導入</div>
                         </div>
 
-                        <div class="flex-1 overflow-y-auto custom-scroll pr-1 min-h-0">
+                        <div class="flex-1 overflow-y-auto custom-scroll pr-1 min-h-0 relative z-10">
                             <ul class="text-[12px] text-slate-600 space-y-1.5 list-disc pl-4 font-medium">
                                 <li><span class="font-bold text-theme-dark">涵蓋8大場景：</span>AI班表、約束工具、溝通教練、QR借用、意見自動化、PDCA、體檢自動化、技術考核</li>
                                 <li>推動照服版、電子送簽、無紙化流程</li>
@@ -735,16 +761,16 @@
                     </div>
 
                     <!-- Card 6 (Placed visually on the left) -->
-                    <div class="flex-[1.2] bg-white rounded-2xl p-4 lg:p-5 shadow-sm border-b-4 border-theme-innovation flex flex-col relative z-10 overflow-hidden min-h-0 innovation-card origin-left cursor-default">
+                    <div class="flex-[1.2] bg-white rounded-2xl p-4 lg:p-5 shadow-sm border-b-4 border-theme-innovation flex flex-col relative z-10 overflow-hidden min-h-0 zoom-card origin-left cursor-default">
                         <!-- Dual Icon Background -->
                         <div class="absolute -right-4 -bottom-4 opacity-5 shrink-0 pointer-events-none"><i data-lucide="heart-handshake" class="w-40 h-40"></i></div>
-                        <div class="absolute top-0 right-0 bg-emerald-100 text-emerald-800 text-[10px] px-2 py-0.5 rounded-bl font-bold shrink-0">達成成果</div>
-                        <div class="flex items-center justify-between mb-3 mt-1 shrink-0">
+                        <div class="absolute top-0 right-0 bg-emerald-600 text-white text-xs lg:text-sm px-3 py-1 rounded-bl-xl font-bold shadow-md tracking-wider shrink-0 z-20">達成成果</div>
+                        <div class="flex items-center justify-between mb-3 mt-1 shrink-0 relative z-10">
                             <h3 class="font-bold text-lg text-theme-dark leading-tight">機構特色與新人文化</h3>
                             <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-theme-innovation"><i data-lucide="building-2" class="w-4 h-4"></i></div>
                         </div>
 
-                        <div class="flex-1 overflow-y-auto custom-scroll pr-1 relative min-h-0">
+                        <div class="flex-1 overflow-y-auto custom-scroll pr-1 relative min-h-0 z-10">
                             <!-- 機構特色 -->
                             <div class="mb-3 border-b border-slate-100 pb-2">
                                 <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1"><i data-lucide="sparkles" class="w-3 h-3 inline text-amber-500"></i> 機構特色</p>
@@ -785,30 +811,30 @@
                 </div>
             </header>
 
-            <div class="flex-1 grid grid-cols-3 gap-6 stagger-2 min-h-0 mt-2">
+            <div class="flex-1 grid grid-cols-3 gap-6 stagger-2 min-h-0 mt-2 zoom-parent">
                 <!-- Column 1: H1 Setup -->
                 <div class="flex flex-col min-h-0 relative">
-                    <div class="bg-slate-100 text-slate-700 font-bold py-2.5 px-4 rounded-t-xl flex justify-between items-center z-10 shadow-sm border border-slate-200">
+                    <div class="bg-slate-100 text-slate-700 font-bold py-2.5 px-4 rounded-t-xl flex justify-between items-center z-10 shadow-sm border border-slate-200 relative">
                         <span class="text-lg">Phase 1: 上半年完成建置</span>
                         <i data-lucide="hammer" class="w-5 h-5 text-slate-500"></i>
                     </div>
-                    <div class="bg-white border border-slate-200 border-t-0 p-4 rounded-b-xl flex-1 overflow-y-auto custom-scroll shadow-sm space-y-4">
+                    <div class="bg-white border border-slate-200 border-t-0 p-4 rounded-b-xl flex-1 shadow-sm flex flex-col gap-4 relative z-10">
                         
                         <!-- NEW Item: 儲備幹部 -->
-                        <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 relative overflow-hidden">
-                            <div class="absolute top-0 right-0 bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded-bl font-bold">已達成</div>
-                            <h4 class="font-bold text-slate-800 mb-1 border-b border-slate-200 pb-1 text-base mt-1">啟動儲備幹部訓練旅程</h4>
-                            <ul class="text-[13px] lg:text-sm text-slate-600 space-y-1 list-disc pl-4 font-medium mt-2">
+                        <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 relative overflow-hidden zoom-card origin-top-left cursor-default">
+                            <div class="absolute top-0 right-0 bg-emerald-600 text-white text-[10px] px-2 py-0.5 rounded-bl font-bold z-20 tracking-wider">已達成</div>
+                            <h4 class="font-bold text-slate-800 mb-1 border-b border-slate-200 pb-1 text-base mt-1 relative z-10">啟動儲備幹部訓練旅程</h4>
+                            <ul class="text-[13px] lg:text-sm text-slate-600 space-y-1 list-disc pl-4 font-medium mt-2 relative z-10">
                                 <li><span class="font-bold text-theme-edu">11人參訓：</span>經課室教學與實務排班作業淬鍊</li>
                                 <li><span class="font-bold text-theme-edu">操作考測：</span>6/17 全數及格通過 (平均89.1分)</li>
                             </ul>
                         </div>
 
                         <!-- Item 1: 教材優化佈達 -->
-                        <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 relative overflow-hidden">
-                            <div class="absolute top-0 right-0 bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded-bl font-bold">已達成</div>
-                            <h4 class="font-bold text-slate-800 mb-1 border-b border-slate-200 pb-1 text-base mt-1">標準化照服攻略教材佈達</h4>
-                            <ul class="text-[13px] lg:text-sm text-slate-600 space-y-1 list-disc pl-4 font-medium mt-2">
+                        <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 relative overflow-hidden zoom-card origin-left cursor-default">
+                            <div class="absolute top-0 right-0 bg-emerald-600 text-white text-[10px] px-2 py-0.5 rounded-bl font-bold z-20 tracking-wider">已達成</div>
+                            <h4 class="font-bold text-slate-800 mb-1 border-b border-slate-200 pb-1 text-base mt-1 relative z-10">標準化照服攻略教材佈達</h4>
+                            <ul class="text-[13px] lg:text-sm text-slate-600 space-y-1 list-disc pl-4 font-medium mt-2 relative z-10">
                                 <li>4/13 佈達中、印、越三語視覺圖卡</li>
                                 <li><span class="font-bold text-theme-edu">技術篇:</span> 輪椅/洗手/會陰/管灌/餵食/翻身/約束</li>
                                 <li><span class="font-bold text-theme-edu">常規篇:</span> 抹布分色/漂白水/隔離衣/消防</li>
@@ -817,10 +843,10 @@
                             </ul>
                         </div>
                         <!-- Item 2: 培訓雙軌制 -->
-                        <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 relative overflow-hidden">
-                            <div class="absolute top-0 right-0 bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded-bl font-bold">已達成</div>
-                            <h4 class="font-bold text-slate-800 mb-1 border-b border-slate-200 pb-1 text-base mt-1">新進引導與外籍培訓雙軌制</h4>
-                            <ul class="text-[13px] lg:text-sm text-slate-600 space-y-1 list-disc pl-4 font-medium mt-2">
+                        <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 relative overflow-hidden zoom-card origin-bottom-left cursor-default">
+                            <div class="absolute top-0 right-0 bg-emerald-600 text-white text-[10px] px-2 py-0.5 rounded-bl font-bold z-20 tracking-wider">已達成</div>
+                            <h4 class="font-bold text-slate-800 mb-1 border-b border-slate-200 pb-1 text-base mt-1 relative z-10">新進引導與外籍培訓雙軌制</h4>
+                            <ul class="text-[13px] lg:text-sm text-slate-600 space-y-1 list-disc pl-4 font-medium mt-2 relative z-10">
                                 <li><span class="font-bold text-theme-edu">台籍照服員:</span> 14天訓練計畫 (5/11試用8E已能獨立)</li>
                                 <li><span class="font-bold text-theme-edu">外籍技術培訓:</span> 6/15提供678F試用，每週二三訓練</li>
                                 <li class="text-xs text-slate-500 mt-1 mb-1">4週循環：教學 &rarr; 練習 &rarr; 練習+考測 &rarr; 考測</li>
@@ -836,26 +862,26 @@
 
                 <!-- Column 2: July Launch -->
                 <div class="flex flex-col min-h-0 relative">
-                    <div class="bg-theme-edu text-white font-bold py-2.5 px-4 rounded-t-xl flex justify-between items-center z-10 shadow-md">
+                    <div class="bg-theme-edu text-white font-bold py-2.5 px-4 rounded-t-xl flex justify-between items-center z-10 shadow-md relative">
                         <span class="text-lg">Phase 2: 7月正式啟動</span>
                         <i data-lucide="rocket" class="w-5 h-5 text-teal-200"></i>
                     </div>
-                    <div class="bg-teal-50/40 border border-teal-100 border-t-0 p-4 rounded-b-xl flex-1 overflow-y-auto custom-scroll shadow-sm space-y-4">
+                    <div class="bg-teal-50/40 border border-teal-100 border-t-0 p-4 rounded-b-xl flex-1 shadow-sm flex flex-col gap-4 relative z-10">
                         <!-- Item 1: Online Exam -->
-                        <div class="bg-white p-3 rounded-lg border border-teal-100 shadow-sm relative overflow-hidden group hover:border-theme-edu transition-colors">
-                            <div class="absolute top-0 right-0 bg-amber-400 text-amber-900 text-xs font-bold px-3 py-0.5 rounded-bl-lg shadow-sm">上線</div>
-                            <h4 class="font-bold text-theme-edu mb-1 border-b border-teal-50 pb-1 text-base mt-1">Online Exam 系統全面上線</h4>
-                            <ul class="text-[13px] lg:text-sm text-slate-600 space-y-1.5 list-disc pl-4 font-medium mt-2">
+                        <div class="bg-white p-3 rounded-lg border border-teal-100 shadow-sm relative overflow-hidden zoom-card origin-top cursor-default">
+                            <div class="absolute top-0 right-0 bg-amber-500 text-white text-[10px] px-2 py-0.5 rounded-bl font-bold z-20 tracking-wider">上線</div>
+                            <h4 class="font-bold text-theme-edu mb-1 border-b border-teal-50 pb-1 text-base mt-1 relative z-10">Online Exam 系統全面上線</h4>
+                            <ul class="text-[13px] lg:text-sm text-slate-600 space-y-1.5 list-disc pl-4 font-medium mt-2 relative z-10">
                                 <li>依年資劃分試題：1個月/3個月/大於1年</li>
                                 <li>後台系統自動追蹤分析錯題與困難題目</li>
                                 <li>依據數據進行針對性加強輔導</li>
                             </ul>
                         </div>
                         <!-- Item 2: 外籍考核分級 -->
-                        <div class="bg-white p-3 rounded-lg border border-teal-100 shadow-sm relative overflow-hidden group hover:border-theme-edu transition-colors">
-                            <div class="absolute top-0 right-0 bg-amber-400 text-amber-900 text-xs font-bold px-3 py-0.5 rounded-bl-lg shadow-sm">上線</div>
-                            <h4 class="font-bold text-theme-edu mb-1 border-b border-teal-50 pb-1 text-base mt-1">外籍考核分級制</h4>
-                            <ul class="text-[13px] lg:text-sm text-slate-600 space-y-1.5 list-disc pl-4 font-medium mt-2">
+                        <div class="bg-white p-3 rounded-lg border border-teal-100 shadow-sm relative overflow-hidden zoom-card origin-center cursor-default">
+                            <div class="absolute top-0 right-0 bg-amber-500 text-white text-[10px] px-2 py-0.5 rounded-bl font-bold z-20 tracking-wider">上線</div>
+                            <h4 class="font-bold text-theme-edu mb-1 border-b border-teal-50 pb-1 text-base mt-1 relative z-10">外籍考核分級制</h4>
+                            <ul class="text-[13px] lg:text-sm text-slate-600 space-y-1.5 list-disc pl-4 font-medium mt-2 relative z-10">
                                 <li>7/1起，每半年由機構長與組長進行評核</li>
                                 <li>五大指標：工作態度/學習/專業/出勤/紀律</li>
                                 <li><span class="font-bold text-theme-edu">A級(優秀):</span> 續留總年限12年</li>
@@ -864,10 +890,10 @@
                             </ul>
                         </div>
                         <!-- Item 3: 黃金90天 & 實習 -->
-                        <div class="bg-white p-3 rounded-lg border border-teal-100 shadow-sm relative overflow-hidden group hover:border-theme-edu transition-colors">
-                            <div class="absolute top-0 right-0 bg-amber-400 text-amber-900 text-xs font-bold px-3 py-0.5 rounded-bl-lg shadow-sm">上線</div>
-                            <h4 class="font-bold text-theme-edu mb-1 border-b border-teal-50 pb-1 text-base mt-1">人才培育 黃金90天與晉升實習</h4>
-                            <ul class="text-[13px] lg:text-sm text-slate-600 space-y-1.5 list-disc pl-4 font-medium mt-2">
+                        <div class="bg-white p-3 rounded-lg border border-teal-100 shadow-sm relative overflow-hidden zoom-card origin-bottom cursor-default">
+                            <div class="absolute top-0 right-0 bg-amber-500 text-white text-[10px] px-2 py-0.5 rounded-bl font-bold z-20 tracking-wider">上線</div>
+                            <h4 class="font-bold text-theme-edu mb-1 border-b border-teal-50 pb-1 text-base mt-1 relative z-10">人才培育 黃金90天與晉升實習</h4>
+                            <ul class="text-[13px] lg:text-sm text-slate-600 space-y-1.5 list-disc pl-4 font-medium mt-2 relative z-10">
                                 <li>新人訓練從一次性教學，轉為持續追蹤，整合教材、技術練習、考核與分級制度。</li>
                                 <li><span class="font-bold text-theme-edu">儲備幹部:</span> 7/1起進入機構實習，預計9/1正式晉升。</li>
                             </ul>
@@ -881,26 +907,26 @@
 
                 <!-- Column 3: H2 Verification -->
                 <div class="flex flex-col min-h-0 relative">
-                    <div class="bg-emerald-600 text-white font-bold py-2.5 px-4 rounded-t-xl flex justify-between items-center z-10 shadow-md">
+                    <div class="bg-emerald-600 text-white font-bold py-2.5 px-4 rounded-t-xl flex justify-between items-center z-10 shadow-md relative">
                         <span class="text-lg">Phase 3: 下半年成效驗證</span>
                         <i data-lucide="check-circle" class="w-5 h-5 text-emerald-200"></i>
                     </div>
-                    <div class="bg-emerald-50/50 border border-emerald-200 border-t-0 p-4 rounded-b-xl flex-1 overflow-y-auto custom-scroll shadow-sm space-y-4">
+                    <div class="bg-emerald-50/50 border border-emerald-200 border-t-0 p-4 rounded-b-xl flex-1 shadow-sm flex flex-col gap-4 relative z-10">
                          <!-- Item 1: 皮膚2.0 -->
-                         <div class="bg-white p-3 rounded-lg border border-emerald-200 shadow-sm group hover:border-emerald-500 transition-colors relative overflow-hidden">
-                            <div class="absolute top-0 right-0 bg-amber-100 text-amber-800 text-[10px] px-2 py-0.5 rounded-bl font-bold">驗證中</div>
-                            <h4 class="font-bold text-emerald-700 mb-1 border-b border-emerald-50 pb-1 text-base flex items-center gap-2 mt-1"><i data-lucide="activity" class="w-4 h-4"></i> 皮膚照護2.0 精準預防驗證</h4>
-                            <ul class="text-[13px] lg:text-sm text-slate-600 space-y-1.5 list-disc pl-4 font-medium mt-2">
+                         <div class="bg-white p-3 rounded-lg border border-emerald-200 shadow-sm relative overflow-hidden zoom-card origin-top-right cursor-default">
+                            <div class="absolute top-0 right-0 bg-amber-500 text-white text-[10px] px-2 py-0.5 rounded-bl font-bold z-20 tracking-wider">驗證中</div>
+                            <h4 class="font-bold text-emerald-700 mb-1 border-b border-emerald-50 pb-1 text-base flex items-center gap-2 mt-1 relative z-10"><i data-lucide="activity" class="w-4 h-4"></i> 皮膚照護2.0 精準預防驗證</h4>
+                            <ul class="text-[13px] lg:text-sm text-slate-600 space-y-1.5 list-disc pl-4 font-medium mt-2 relative z-10">
                                 <li>針對高危住民，落實三語圖卡床頭標示與日常檢核</li>
                                 <li><span class="font-bold text-emerald-600">3-5月顯著成效:</span> 瘀青由 70件大降至 34件；破皮由 80件降至 58件。</li>
                                 <li>持續追蹤並確保各項發生率顯著降低</li>
                             </ul>
                         </div>
                          <!-- Item 2: KPI & 留任 -->
-                         <div class="bg-white p-3 rounded-lg border border-emerald-200 shadow-sm group hover:border-emerald-500 transition-colors relative overflow-hidden">
-                            <div class="absolute top-0 right-0 bg-amber-100 text-amber-800 text-[10px] px-2 py-0.5 rounded-bl font-bold">驗證中</div>
-                            <h4 class="font-bold text-emerald-700 mb-1 border-b border-emerald-50 pb-1 text-base flex items-center gap-2 mt-1"><i data-lucide="trending-up" class="w-4 h-4"></i> 留任與品質雙軌驗證</h4>
-                            <ul class="text-[13px] lg:text-sm text-slate-600 space-y-1.5 list-disc pl-4 font-medium mt-2">
+                         <div class="bg-white p-3 rounded-lg border border-emerald-200 shadow-sm relative overflow-hidden zoom-card origin-bottom-right cursor-default">
+                            <div class="absolute top-0 right-0 bg-amber-500 text-white text-[10px] px-2 py-0.5 rounded-bl font-bold z-20 tracking-wider">驗證中</div>
+                            <h4 class="font-bold text-emerald-700 mb-1 border-b border-emerald-50 pb-1 text-base flex items-center gap-2 mt-1 relative z-10"><i data-lucide="trending-up" class="w-4 h-4"></i> 留任與品質雙軌驗證</h4>
+                            <ul class="text-[13px] lg:text-sm text-slate-600 space-y-1.5 list-disc pl-4 font-medium mt-2 relative z-10">
                                 <li>追蹤黃金90天計畫對人員穩定度的影響</li>
                                 <li><span class="font-bold text-emerald-600">最終目標:</span> 提升整體留任率、穩定現場照護品質</li>
                                 <li>降低反覆補救與重新訓練的隱性管理成本</li>
@@ -926,29 +952,29 @@
             </header>
 
             <!-- Key Support KPIs -->
-            <div class="grid grid-cols-4 gap-4 mb-6 stagger-2 shrink-0">
-                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
+            <div class="grid grid-cols-4 gap-4 mb-6 stagger-2 shrink-0 zoom-parent">
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4 zoom-card-sm origin-top">
                     <div class="bg-emerald-50 p-3 rounded-lg text-emerald-600"><i data-lucide="user-minus" class="w-6 h-6"></i></div>
                     <div>
                         <div class="text-2xl font-bold text-theme-dark"><span class="count-up" data-target="4.7" data-decimals="1">0</span>%</div>
                         <div class="text-[12px] font-bold text-slate-500 uppercase tracking-wider">外籍離職率 (極低)</div>
                     </div>
                 </div>
-                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4 zoom-card-sm origin-top">
                     <div class="bg-blue-50 p-3 rounded-lg text-blue-600"><i data-lucide="users" class="w-6 h-6"></i></div>
                     <div>
                         <div class="text-2xl font-bold text-theme-dark"><span class="count-up" data-target="360" data-decimals="0">0</span>人</div>
                         <div class="text-[12px] font-bold text-slate-500 uppercase tracking-wider">在職同仁關懷</div>
                     </div>
                 </div>
-                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4 zoom-card-sm origin-top">
                     <div class="bg-amber-50 p-3 rounded-lg text-amber-600"><i data-lucide="file-text" class="w-6 h-6"></i></div>
                     <div>
                         <div class="text-2xl font-bold text-theme-dark"><span class="count-up" data-target="175" data-decimals="0">0</span>份</div>
                         <div class="text-[12px] font-bold text-slate-500 uppercase tracking-wider">工作意見調查回收</div>
                     </div>
                 </div>
-                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4 zoom-card-sm origin-top">
                     <div class="bg-rose-50 p-3 rounded-lg text-rose-600"><i data-lucide="building" class="w-6 h-6"></i></div>
                     <div>
                         <div class="text-2xl font-bold text-theme-dark"><span class="count-up" data-target="10" data-decimals="0">0</span>家</div>
@@ -958,16 +984,16 @@
             </div>
 
             <!-- Detailed Support Cards -->
-            <div class="flex-1 grid grid-cols-3 gap-6 stagger-3 min-h-0">
+            <div class="flex-1 grid grid-cols-3 gap-6 stagger-3 min-h-0 zoom-parent">
                 
                 <!-- Card 1 -->
-                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 flex flex-col relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-emerald-100 text-emerald-800 text-[10px] px-2 py-0.5 rounded-bl font-bold">已達成支援成果</div>
-                    <div class="flex items-center gap-2 mb-4 mt-1 border-b border-slate-200 pb-2">
+                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 flex flex-col relative overflow-hidden zoom-card origin-bottom-left cursor-default">
+                    <div class="absolute top-0 right-0 bg-emerald-600 text-white text-[10px] px-3 py-1 rounded-bl-xl font-bold shadow-md tracking-wider z-20">已達成支援成果</div>
+                    <div class="flex items-center gap-2 mb-4 mt-1 border-b border-slate-200 pb-2 relative z-10">
                         <i data-lucide="globe" class="text-theme-support w-5 h-5"></i>
                         <h3 class="font-bold text-lg text-theme-dark">外籍與晉升支援</h3>
                     </div>
-                    <ul class="text-[13px] text-slate-600 space-y-3 font-medium flex-1 overflow-y-auto custom-scroll pr-1">
+                    <ul class="text-[13px] text-slate-600 space-y-3 font-medium flex-1 relative z-10">
                         <li class="bg-white p-2.5 rounded shadow-sm border border-slate-100">
                             <span class="font-bold text-theme-dark block mb-1">外籍大平台</span>
                             觸及約 230 人，持續優化平台提升照護專業。
@@ -984,13 +1010,13 @@
                 </div>
 
                 <!-- Card 2 -->
-                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 flex flex-col relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-emerald-100 text-emerald-800 text-[10px] px-2 py-0.5 rounded-bl font-bold">已達成支援成果</div>
-                    <div class="flex items-center gap-2 mb-4 mt-1 border-b border-slate-200 pb-2">
+                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 flex flex-col relative overflow-hidden zoom-card origin-bottom cursor-default">
+                    <div class="absolute top-0 right-0 bg-emerald-600 text-white text-[10px] px-3 py-1 rounded-bl-xl font-bold shadow-md tracking-wider z-20">已達成支援成果</div>
+                    <div class="flex items-center gap-2 mb-4 mt-1 border-b border-slate-200 pb-2 relative z-10">
                         <i data-lucide="briefcase" class="text-theme-support w-5 h-5"></i>
                         <h3 class="font-bold text-lg text-theme-dark">行政與人力支援</h3>
                     </div>
-                    <ul class="text-[13px] text-slate-600 space-y-3 font-medium flex-1 overflow-y-auto custom-scroll pr-1">
+                    <ul class="text-[13px] text-slate-600 space-y-3 font-medium flex-1 relative z-10">
                         <li class="bg-white p-2.5 rounded shadow-sm border border-slate-100">
                             <span class="font-bold text-theme-dark block mb-1">黃金90天計畫後盾</span>
                             全職種新進 81 人關懷，作為人才培育前線的最強支援。
@@ -1007,12 +1033,13 @@
                 </div>
 
                 <!-- Card 3 (H2 Focus) -->
-                <div class="bg-slate-800 text-white rounded-2xl p-5 border border-slate-700 flex flex-col shadow-md">
-                    <div class="flex items-center gap-2 mb-4 border-b border-slate-600 pb-2">
+                <div class="bg-slate-800 text-white rounded-2xl p-5 border border-slate-700 flex flex-col shadow-md relative overflow-hidden zoom-card origin-bottom-right cursor-default">
+                    <div class="absolute top-0 right-0 bg-amber-500 text-white text-[10px] px-3 py-1 rounded-bl-xl font-bold shadow-md tracking-wider z-20">深化驗證中</div>
+                    <div class="flex items-center gap-2 mb-4 border-b border-slate-600 pb-2 mt-1 relative z-10">
                         <i data-lucide="target" class="text-slate-300 w-5 h-5"></i>
                         <h3 class="font-bold text-lg text-white">下半年深化支援重點</h3>
                     </div>
-                    <ul class="text-[13px] text-slate-300 space-y-3 font-medium flex-1 overflow-y-auto custom-scroll pr-1">
+                    <ul class="text-[13px] text-slate-300 space-y-3 font-medium flex-1 relative z-10">
                         <li class="flex items-start gap-2">
                             <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 mt-0.5 shrink-0"></i>
                             <div>
@@ -1053,29 +1080,29 @@
                 <p class="text-lg text-slate-500 font-medium">三位督導成果 ＋ 經理支援，共同形成整體照護管理系統</p>
             </header>
 
-            <div class="flex items-stretch justify-center gap-8 w-full max-w-5xl mx-auto h-[60%] stagger-2">
+            <div class="flex items-stretch justify-center gap-8 w-full max-w-5xl mx-auto h-[60%] stagger-2 zoom-parent">
                 <!-- Left: 4 Lines -->
                 <div class="flex flex-col justify-between w-[38%] gap-3">
                     <!-- Chun-Ting -->
-                    <div class="bg-white border-l-4 border-theme-main p-3 rounded-r-xl shadow-sm relative group flex-1 flex flex-col justify-center">
+                    <div class="bg-white border-l-4 border-theme-main p-3 rounded-r-xl shadow-sm relative group flex-1 flex flex-col justify-center zoom-card-sm origin-left cursor-default">
                         <div class="absolute -right-4 top-1/2 w-8 h-px bg-slate-300"></div>
                         <h3 class="font-bold text-theme-main flex items-center gap-2 mb-1"><i data-lucide="shield-check" class="w-4 h-4"></i>制度標準</h3>
                         <p class="text-[11px] font-medium text-slate-600">護理組長/評鑑優化/品質獎勵/減就/新醫護系統</p>
                     </div>
                     <!-- Ting-Kuang -->
-                    <div class="bg-white border-l-4 border-theme-innovation p-3 rounded-r-xl shadow-sm relative group flex-1 flex flex-col justify-center">
+                    <div class="bg-white border-l-4 border-theme-innovation p-3 rounded-r-xl shadow-sm relative group flex-1 flex flex-col justify-center zoom-card-sm origin-left cursor-default">
                         <div class="absolute -right-4 top-1/2 w-8 h-px bg-slate-300"></div>
                         <h3 class="font-bold text-theme-innovation flex items-center gap-2 mb-1"><i data-lucide="cpu" class="w-4 h-4"></i>現場創新</h3>
                         <p class="text-[11px] font-medium text-slate-600">115新制/約束/口腔循環/智慧床墊/AI/機構特色</p>
                     </div>
                     <!-- Heng-Ching -->
-                    <div class="bg-white border-l-4 border-theme-edu p-3 rounded-r-xl shadow-sm relative group flex-1 flex flex-col justify-center">
+                    <div class="bg-white border-l-4 border-theme-edu p-3 rounded-r-xl shadow-sm relative group flex-1 flex flex-col justify-center zoom-card-sm origin-left cursor-default">
                         <div class="absolute -right-4 top-1/2 w-8 h-px bg-slate-300"></div>
                         <h3 class="font-bold text-theme-edu flex items-center gap-2 mb-1"><i data-lucide="graduation-cap" class="w-4 h-4"></i>人才養成</h3>
                         <p class="text-[11px] font-medium text-slate-600">教材多語系/14天訓練/Exam/外籍分級/黃金90天</p>
                     </div>
                     <!-- Wen Support -->
-                    <div class="bg-slate-50 border-l-4 border-theme-support p-3 rounded-r-xl shadow-sm relative group flex-1 flex flex-col justify-center">
+                    <div class="bg-slate-50 border-l-4 border-theme-support p-3 rounded-r-xl shadow-sm relative group flex-1 flex flex-col justify-center zoom-card-sm origin-left cursor-default">
                         <div class="absolute -right-4 top-1/2 w-8 h-px bg-slate-300"></div>
                         <h3 class="font-bold text-theme-support flex items-center gap-2 mb-1"><i data-lucide="life-buoy" class="w-4 h-4"></i>課級留才與行政支援</h3>
                         <p class="text-[11px] font-medium text-slate-500">外籍大平台/晉升/評鑑支援/關懷/人力控管</p>
@@ -1100,7 +1127,7 @@
 
                 <!-- Right: Converged Result -->
                 <div class="w-1/2 flex items-center">
-                    <div class="bg-gradient-to-br from-rose-900 to-indigo-900 w-full p-8 rounded-2xl shadow-xl text-white transform hover:scale-105 transition-transform duration-500 relative overflow-hidden">
+                    <div class="bg-gradient-to-br from-rose-900 to-indigo-900 w-full p-8 rounded-2xl shadow-xl text-white relative overflow-hidden zoom-card-sm origin-right cursor-default">
                         <!-- Decals -->
                         <div class="absolute -right-10 -top-10 opacity-10"><i data-lucide="hexagons" class="w-48 h-48"></i></div>
                         
@@ -1140,9 +1167,9 @@
                 <h1 class="text-4xl font-light text-theme-dark">下半年方向：從成果展示進入 <span class="font-bold text-theme-main">成效驗證</span></h1>
             </header>
 
-            <div class="grid grid-cols-2 gap-6 flex-1 max-w-5xl mx-auto w-full mb-6 stagger-2 min-h-0">
+            <div class="grid grid-cols-2 gap-6 flex-1 max-w-5xl mx-auto w-full mb-6 stagger-2 min-h-0 zoom-parent">
                 <!-- Direction 1 -->
-                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-center">
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-center zoom-card-sm origin-center cursor-default">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="bg-slate-100 p-2 rounded-lg text-theme-main"><i data-lucide="bar-chart-3" class="w-6 h-6"></i></div>
                         <h3 class="text-xl font-bold text-slate-800">數據驗證</h3>
@@ -1150,7 +1177,7 @@
                     <p class="text-slate-600 font-medium">品質、減就、約束、口腔、教育成效持續追蹤，確保各項指標達成KPI。</p>
                 </div>
                 <!-- Direction 2 -->
-                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-center">
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-center zoom-card-sm origin-center cursor-default">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="bg-slate-100 p-2 rounded-lg text-theme-innovation"><i data-lucide="check-square" class="w-6 h-6"></i></div>
                         <h3 class="text-xl font-bold text-slate-800">現場落地</h3>
@@ -1158,7 +1185,7 @@
                     <p class="text-slate-600 font-medium">不只停留在計畫，讓建立的制度、教育與創新工具，真正變成照服員與護理師的日常流程。</p>
                 </div>
                 <!-- Direction 3 -->
-                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-center">
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-center zoom-card-sm origin-center cursor-default">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="bg-slate-100 p-2 rounded-lg text-theme-edu"><i data-lucide="monitor" class="w-6 h-6"></i></div>
                         <h3 class="text-xl font-bold text-slate-800">系統支援</h3>
@@ -1166,7 +1193,7 @@
                     <p class="text-slate-600 font-medium">新醫護系統、Online Exam、AI工具、智慧床墊持續整合，降低人工負擔。</p>
                 </div>
                 <!-- Direction 4 -->
-                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-center">
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-center zoom-card-sm origin-center cursor-default">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="bg-slate-100 p-2 rounded-lg text-amber-600"><i data-lucide="users-2" class="w-6 h-6"></i></div>
                         <h3 class="text-xl font-bold text-slate-800">人才留任與梯隊複製</h3>
@@ -1176,7 +1203,7 @@
             </div>
 
             <!-- Conclusion Quote -->
-            <div class="bg-slate-800 text-white p-6 rounded-2xl max-w-5xl mx-auto w-full text-center shadow-lg stagger-3 shrink-0 mb-4">
+            <div class="bg-slate-800 text-white p-6 rounded-2xl max-w-5xl mx-auto w-full text-center shadow-lg stagger-3 shrink-0 mb-4 zoom-card-sm origin-bottom cursor-default">
                 <i data-lucide="quote" class="w-8 h-8 text-slate-600 mx-auto mb-2"></i>
                 <p class="text-lg lg:text-xl font-medium leading-relaxed mb-2">
                     上半年，生福課完成的不只是個別成果，而是把<span class="text-rose-300 font-bold mx-1">制度、現場與人才</span>串成一套可以持續驗證的照護管理系統。
