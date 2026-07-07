@@ -41,7 +41,7 @@
     <style>
         body {
             background: linear-gradient(135deg, #fdfbfb 0%, #f3f4f6 100%);
-            color: #1e293b;PDAC
+            color: #1e293b;
             overflow: hidden; /* Prevent scrolling for presentation mode */
             user-select: none;
         }
@@ -134,6 +134,21 @@
             0% { transform: translateX(0); opacity: 0.5; }
             50% { transform: translateX(6px); opacity: 1; }
             100% { transform: translateX(0); opacity: 0.5; }
+        }
+
+        /* Innovation Card Hover Zoom Effect */
+        .innovation-card {
+            z-index: 10;
+            /* 延遲 z-index 縮回，避免縮小時被旁邊卡片擋住 */
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, z-index 0s 0.3s;
+            will-change: transform;
+        }
+        .innovation-card:hover {
+            transform: scale(1.35);
+            z-index: 50;
+            /* z-index 瞬間提升到最高層 */
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, z-index 0s;
+            box-shadow: 0 30px 60px -10px rgba(30, 58, 138, 0.35);
         }
     </style>
 </head>
@@ -304,7 +319,7 @@
             </div>
         </section>
 
-        <!-- Slide 2: 春婷 (Quality) -->
+        <!-- Slide 2: 春婷 (Quality) - Layout Maintained -->
         <section class="slide flex flex-col" id="slide-2">
             <header class="mb-6 stagger-1 shrink-0 flex items-end justify-between">
                 <div>
@@ -316,7 +331,7 @@
                 </div>
             </header>
 
-            <!-- Master-Detail UI -->
+            <!-- Master-Detail UI (Maintained w-1/3 & w-2/3) -->
             <div class="flex flex-1 gap-6 min-h-0 stagger-2">
                 <!-- Left Menu (Master) -->
                 <div class="w-1/3 flex flex-col gap-3 shrink-0 overflow-y-auto custom-scroll pr-2 pb-2">
@@ -565,7 +580,7 @@
             </div>
         </section>
 
-        <!-- Slide 3: 庭匡 (Innovation) - REDESIGNED FOR NO OVERLAP -->
+        <!-- Slide 3: 庭匡 (Innovation) - WITH HOVER ZOOM CARDS -->
         <section class="slide flex flex-col" id="slide-3">
             <header class="mb-4 stagger-1 shrink-0 flex items-end justify-between">
                 <div>
@@ -578,13 +593,13 @@
             </header>
 
             <!-- Responsive Flex Container ensuring no overlap/overflow -->
-            <div class="flex-1 w-full max-w-6xl mx-auto flex flex-col justify-center gap-4 lg:gap-6 relative stagger-2 min-h-0 py-2">
+            <div class="flex-1 w-full max-w-6xl mx-auto flex flex-col justify-center gap-4 lg:gap-6 relative min-h-0 py-2 stagger-2">
                 
                 <!-- Top Row -->
-                <div class="flex items-stretch gap-4 relative z-10 flex-1 min-h-0">
+                <div class="flex items-stretch gap-4 flex-1 min-h-0">
                     
                     <!-- Card 1 -->
-                    <div class="flex-1 bg-white rounded-2xl p-4 lg:p-5 shadow-sm border-t-4 border-theme-innovation flex flex-col relative overflow-hidden min-h-0">
+                    <div class="flex-1 bg-white rounded-2xl p-4 lg:p-5 shadow-sm border-t-4 border-theme-innovation flex flex-col relative z-10 overflow-hidden min-h-0 innovation-card origin-left cursor-default">
                         <div class="absolute top-0 right-0 bg-emerald-100 text-emerald-800 text-[10px] px-2 py-0.5 rounded-bl font-bold shrink-0">已完成建置</div>
                         <div class="flex items-center justify-between mb-2 mt-1 shrink-0">
                             <h3 class="font-bold text-lg text-theme-dark">115照服員新制</h3>
@@ -597,7 +612,7 @@
                                 <li>規劃房務員制度分工與輔具導入</li>
                                 <li><span class="font-bold text-theme-innovation">5、6、7樓正式進入試辦階段</span></li>
                             </ul>
-                            <div class="border-t border-slate-100 pt-2">
+                            <div class="border-t border-slate-100 pt-2 mt-auto">
                                 <p class="text-[11px] font-bold text-amber-600 uppercase tracking-wider mb-1"><i data-lucide="eye" class="w-3 h-3 inline mr-0.5"></i>下半年現場驗證指標</p>
                                 <div class="flex flex-wrap gap-1">
                                     <span class="px-1.5 py-0.5 bg-blue-50 text-blue-700 rounded text-[10px] font-bold">人力配置合理性</span>
@@ -611,12 +626,12 @@
                     </div>
                     
                     <!-- Arrow Right -->
-                    <div class="hidden lg:flex items-center justify-center shrink-0 w-6">
+                    <div class="hidden lg:flex items-center justify-center shrink-0 w-6 relative z-10">
                         <i data-lucide="arrow-right" class="w-6 h-6 text-blue-300 flow-arrow-right"></i>
                     </div>
 
                     <!-- Card 2 -->
-                    <div class="flex-1 bg-white rounded-2xl p-4 lg:p-5 shadow-sm border-t-4 border-theme-innovation flex flex-col relative overflow-hidden min-h-0">
+                    <div class="flex-1 bg-white rounded-2xl p-4 lg:p-5 shadow-sm border-t-4 border-theme-innovation flex flex-col relative z-10 overflow-hidden min-h-0 innovation-card origin-center cursor-default">
                         <div class="absolute top-0 right-0 bg-emerald-100 text-emerald-800 text-[10px] px-2 py-0.5 rounded-bl font-bold shrink-0">達成成果</div>
                         <div class="flex items-center justify-between mb-2 mt-1 shrink-0">
                             <h3 class="font-bold text-lg text-theme-dark">約束 3.0</h3>
@@ -633,12 +648,12 @@
                     </div>
 
                     <!-- Arrow Right -->
-                    <div class="hidden lg:flex items-center justify-center shrink-0 w-6">
+                    <div class="hidden lg:flex items-center justify-center shrink-0 w-6 relative z-10">
                         <i data-lucide="arrow-right" class="w-6 h-6 text-blue-300 flow-arrow-right"></i>
                     </div>
 
                     <!-- Card 3 -->
-                    <div class="flex-1 bg-white rounded-2xl p-4 lg:p-5 shadow-sm border-t-4 border-theme-innovation flex flex-col relative overflow-hidden min-h-0">
+                    <div class="flex-1 bg-white rounded-2xl p-4 lg:p-5 shadow-sm border-t-4 border-theme-innovation flex flex-col relative z-10 overflow-hidden min-h-0 innovation-card origin-right cursor-default">
                         <div class="absolute top-0 right-0 bg-emerald-100 text-emerald-800 text-[10px] px-2 py-0.5 rounded-bl font-bold shrink-0">達成成果</div>
                         <div class="flex items-center justify-between mb-2 mt-1 shrink-0">
                             <h3 class="font-bold text-lg text-theme-dark leading-tight">口腔-吞嚥-呼吸<br><span class="text-sm text-theme-innovation">智慧照護循環</span></h3>
@@ -649,12 +664,15 @@
                             <ul class="text-[13px] text-slate-600 space-y-1.5 list-disc pl-4 font-medium">
                                 <li>建立口腔照護流程</li>
                                 <li>整合語言治療與吞嚥訓練</li>
-                                <li>受牙醫量能限制，持續媒合外部資源</li>
+                                <li>受牙醫量能限制，媒合外部資源</li>
                                 <li>串接預防肺炎照護</li>
                             </ul>
                         </div>
                     </div>
                 </div>
+
+                <!-- Background Connector Line -->
+                <div class="absolute top-[48%] left-[10%] right-[10%] h-1 bg-blue-100 z-0 hidden lg:block"></div>
 
                 <!-- Flow arrow down (Connects right side) -->
                 <div class="hidden lg:flex justify-end pr-[15%] shrink-0 -my-2 relative z-0">
@@ -662,10 +680,10 @@
                 </div>
 
                 <!-- Bottom Row (Reversed logic flow visually) -->
-                <div class="flex items-stretch gap-4 relative z-10 flex-1 min-h-0 flex-row-reverse">
+                <div class="flex items-stretch gap-4 flex-1 min-h-0 flex-row-reverse">
                     
                     <!-- Card 4 (Placed visually on the right) -->
-                    <div class="flex-1 bg-white rounded-2xl p-4 lg:p-5 shadow-sm border-b-4 border-theme-innovation flex flex-col relative overflow-hidden min-h-0">
+                    <div class="flex-1 bg-white rounded-2xl p-4 lg:p-5 shadow-sm border-b-4 border-theme-innovation flex flex-col relative z-10 overflow-hidden min-h-0 innovation-card origin-right cursor-default">
                         <div class="absolute top-0 right-0 bg-amber-100 text-amber-800 text-[10px] px-2 py-0.5 rounded-bl font-bold shrink-0">導入驗證中</div>
                         <div class="flex items-center justify-between mb-2 mt-1 shrink-0">
                             <h3 class="font-bold text-lg text-theme-dark">智慧床墊</h3>
@@ -683,12 +701,12 @@
                     </div>
 
                     <!-- Arrow Left (Using transform scale-x to reverse arrow) -->
-                    <div class="hidden lg:flex items-center justify-center shrink-0 w-6 transform -scale-x-100">
+                    <div class="hidden lg:flex items-center justify-center shrink-0 w-6 transform -scale-x-100 relative z-10">
                         <i data-lucide="arrow-right" class="w-6 h-6 text-blue-300 flow-arrow-right"></i>
                     </div>
 
                     <!-- Card 5 -->
-                    <div class="flex-1 bg-white rounded-2xl p-4 lg:p-5 shadow-sm border-b-4 border-theme-innovation flex flex-col relative overflow-hidden min-h-0">
+                    <div class="flex-[1.2] bg-white rounded-2xl p-4 lg:p-5 shadow-sm border-b-4 border-theme-innovation flex flex-col relative z-10 overflow-hidden min-h-0 innovation-card origin-center cursor-default">
                         <div class="absolute top-0 right-0 bg-emerald-100 text-emerald-800 text-[10px] px-2 py-0.5 rounded-bl font-bold shrink-0">達成成果</div>
                         <div class="flex items-center justify-between mb-3 mt-1 shrink-0">
                             <h3 class="font-bold text-lg text-theme-dark">AI應用與數位化</h3>
@@ -712,28 +730,27 @@
                     </div>
 
                     <!-- Arrow Left -->
-                    <div class="hidden lg:flex items-center justify-center shrink-0 w-6 transform -scale-x-100">
+                    <div class="hidden lg:flex items-center justify-center shrink-0 w-6 transform -scale-x-100 relative z-10">
                         <i data-lucide="arrow-right" class="w-6 h-6 text-blue-300 flow-arrow-right"></i>
                     </div>
 
                     <!-- Card 6 (Placed visually on the left) -->
-                    <div class="flex-1 bg-white rounded-2xl p-4 lg:p-5 shadow-sm border-b-4 border-theme-innovation flex flex-col relative overflow-hidden min-h-0">
-                        <!-- Dual Icon -->
-                        <div class="absolute -right-4 -bottom-4 opacity-5 shrink-0"><i data-lucide="heart-handshake" class="w-32 h-32"></i></div>
+                    <div class="flex-[1.2] bg-white rounded-2xl p-4 lg:p-5 shadow-sm border-b-4 border-theme-innovation flex flex-col relative z-10 overflow-hidden min-h-0 innovation-card origin-left cursor-default">
+                        <!-- Dual Icon Background -->
+                        <div class="absolute -right-4 -bottom-4 opacity-5 shrink-0 pointer-events-none"><i data-lucide="heart-handshake" class="w-40 h-40"></i></div>
                         <div class="absolute top-0 right-0 bg-emerald-100 text-emerald-800 text-[10px] px-2 py-0.5 rounded-bl font-bold shrink-0">達成成果</div>
                         <div class="flex items-center justify-between mb-3 mt-1 shrink-0">
-                            <h3 class="font-bold text-lg text-theme-dark leading-tight">機構特色與<br>新人文化</h3>
+                            <h3 class="font-bold text-lg text-theme-dark leading-tight">機構特色與新人文化</h3>
                             <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-theme-innovation"><i data-lucide="building-2" class="w-4 h-4"></i></div>
                         </div>
 
-                        <div class="flex-1 overflow-y-auto custom-scroll pr-1 z-10 relative min-h-0">
+                        <div class="flex-1 overflow-y-auto custom-scroll pr-1 relative min-h-0">
                             <!-- 機構特色 -->
                             <div class="mb-3 border-b border-slate-100 pb-2">
                                 <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1"><i data-lucide="sparkles" class="w-3 h-3 inline text-amber-500"></i> 機構特色</p>
                                 <ul class="text-[12px] text-slate-600 space-y-1 list-disc pl-4 font-medium">
                                     <li>協助各館建立特色方向，建立特色文化(非一次性)</li>
                                     <li>成果轉化為可展示、可分享、可複製模式</li>
-                                    <li>作為品質卓越及跨館交流基礎</li>
                                 </ul>
                             </div>
                             <!-- 新人文化 -->
@@ -745,7 +762,7 @@
                                     <span class="px-1.5 py-0.5 bg-emerald-50 text-emerald-700 rounded text-[10px] font-bold">工作認同</span>
                                     <span class="px-1.5 py-0.5 bg-emerald-50 text-emerald-700 rounded text-[10px] font-bold">留任率</span>
                                 </div>
-                                <div class="flex gap-1 text-[11px] font-bold flex-wrap">
+                                <div class="flex gap-1 text-[11px] font-bold flex-wrap mt-auto">
                                     <span class="bg-blue-50 text-blue-700 px-2 rounded">95%滿意</span>
                                     <span class="bg-emerald-50 text-emerald-700 px-2 rounded">75%極有幫助</span>
                                 </div>
