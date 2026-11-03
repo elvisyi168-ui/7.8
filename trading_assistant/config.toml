@@ -1,0 +1,52 @@
+# ===== 交易幫手設定檔（改這裡就好，不用動程式）=====
+
+[market]
+exchange = "binance"          # 目前支援 binance（USDT 永續合約公開資料，免 API Key）
+symbols = ["BTCUSDT", "ETHUSDT", "SOLUSDT"]
+interval = "5m"               # 1m / 3m / 5m / 15m
+day_cut_hour_utc = 0          # 「一天」的切點（UTC），日虧損上限與 VWAP 以此重置
+
+[account]
+equity = 1000.0               # 回測起始資金（USDT）
+risk_per_trade_pct = 1.0      # 單筆最多虧帳戶的 %（建議 0.5～1）
+max_leverage = 10             # 槓桿上限
+maintenance_margin_rate = 0.005
+daily_loss_limit_pct = 3.0    # 當日虧損達此 % 就停止開新倉
+max_trades_per_day = 6
+max_fee_r = 0.15              # 來回手續費 > 單筆風險的 15% 就不做（停損太窄＝幫交易所打工）
+
+[costs]
+taker_fee_pct = 0.05          # 市價單手續費 %
+maker_fee_pct = 0.02          # 限價（停利）手續費 %
+slippage_bps = 3              # 市價成交滑價（1 bps = 0.01%），山寨幣請調高
+default_funding_rate_pct = 0.01  # 無歷史資金費率時的預設值（每 8 小時）
+
+[execution]
+max_hold_bars = 48            # 最長持倉根數（5m×48 = 4 小時），到期市價出場
+flat_at_day_cut = true        # 跨日切點強制平倉（當沖紀律）
+
+[strategy.orb]                # 時段開盤區間突破
+enabled = true
+session_hours_utc = [0, 7, 13]  # 亞洲 / 歐洲 / 美盤 開盤
+range_minutes = 30
+trade_window_minutes = 120
+min_volume_ratio = 1.5        # 突破 K 量 ≥ 均量 × 此值
+min_adx = 20                  # 趨勢強度門檻
+atr_stop_mult = 1.5
+reward_risk = 2.0
+
+[strategy.vwap]               # VWAP 偏離回歸（盤整用）
+enabled = true
+max_adx = 20                  # ADX 低於此值才視為盤整
+entry_dev_atr = 2.0           # 偏離 VWAP 超過 N 倍 ATR 後回拉才進場
+atr_stop_mult = 1.0
+min_reward_risk = 1.2         # 到 VWAP 的空間不足此 R 倍就放棄
+
+[indicators]
+atr_period = 14
+adx_period = 14
+volume_lookback = 20
+
+[notify]
+# 選填：掃描到訊號推播到 Telegram。請用環境變數 TG_TOKEN、TG_CHAT_ID，不要寫在這裡。
+telegram = false
