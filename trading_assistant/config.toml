@@ -1,52 +1,147 @@
-# ===== 交易幫手設定檔（改這裡就好，不用動程式）=====
+# ===== 多市場當沖交易幫手 設定檔 =====
+# 結構：[defaults] 是共用預設；[markets.xxx] 只寫跟預設不同的部分（會覆蓋預設）。
 
-[market]
-exchange = "binance"          # 目前支援 binance（USDT 永續合約公開資料，免 API Key）
-symbols = ["BTCUSDT", "ETHUSDT", "SOLUSDT"]
-interval = "5m"               # 1m / 3m / 5m / 15m
-day_cut_hour_utc = 0          # 「一天」的切點（UTC），日虧損上限與 VWAP 以此重置
-
-[account]
-equity = 1000.0               # 回測起始資金（USDT）
-risk_per_trade_pct = 1.0      # 單筆最多虧帳戶的 %（建議 0.5～1）
-max_leverage = 10             # 槓桿上限
-maintenance_margin_rate = 0.005
-daily_loss_limit_pct = 3.0    # 當日虧損達此 % 就停止開新倉
+# ---------------- 共用預設 ----------------
+[defaults.account]
+risk_per_trade_pct = 1.0      # 單筆最多虧帳戶的 %
+daily_loss_limit_pct = 3.0    # 當日虧損達此 % 停止開新倉
 max_trades_per_day = 6
-max_fee_r = 0.15              # 來回手續費 > 單筆風險的 15% 就不做（停損太窄＝幫交易所打工）
+max_fee_r = 0.15              # 來回成本 > 單筆風險 15% 就不做
+min_reward_risk = 1.0         # 下單單的最低 R:R
+max_leverage = 1
+maintenance_margin_rate = 0.005
 
-[costs]
-taker_fee_pct = 0.05          # 市價單手續費 %
-maker_fee_pct = 0.02          # 限價（停利）手續費 %
-slippage_bps = 3              # 市價成交滑價（1 bps = 0.01%），山寨幣請調高
-default_funding_rate_pct = 0.01  # 無歷史資金費率時的預設值（每 8 小時）
+[defaults.costs]
+fee_pct = 0.0                 # 每邊手續費 %（市價）
+maker_fee_pct = -1            # 限價停利手續費 %；-1 = 同 fee_pct
+min_fee = 0.0                 # 每筆最低手續費（台股 20 元）
+sell_tax_pct = 0.0            # 賣出時加收（台股當沖證交稅 0.15%）
+slippage_bps = 3              # 市價滑價（1 bps = 0.01%）
+default_funding_rate_pct = 0.01
 
-[execution]
-max_hold_bars = 48            # 最長持倉根數（5m×48 = 4 小時），到期市價出場
-flat_at_day_cut = true        # 跨日切點強制平倉（當沖紀律）
+[defaults.execution]
+max_hold_bars = 48            # 最長持倉根數，到期市價出場
+flat_at_day_cut = true
 
-[strategy.orb]                # 時段開盤區間突破
+[defaults.strategy.orb]       # 開盤區間突破
 enabled = true
-session_hours_utc = [0, 7, 13]  # 亞洲 / 歐洲 / 美盤 開盤
-range_minutes = 30
+session_times = ["09:00"]     # 區間起點（市場當地時間）
+range_minutes = 15
 trade_window_minutes = 120
-min_volume_ratio = 1.5        # 突破 K 量 ≥ 均量 × 此值
-min_adx = 20                  # 趨勢強度門檻
+min_volume_ratio = 1.5
+min_adx = 20
+stop_mode = "atr"             # atr = ATR 倍數 / or_mid = 區間中點 / or_low = 區間另一端
 atr_stop_mult = 1.5
 reward_risk = 2.0
 
-[strategy.vwap]               # VWAP 偏離回歸（盤整用）
+[defaults.strategy.vwap]      # VWAP 回歸（盤整用）
 enabled = true
-max_adx = 20                  # ADX 低於此值才視為盤整
-entry_dev_atr = 2.0           # 偏離 VWAP 超過 N 倍 ATR 後回拉才進場
+max_adx = 20
+entry_dev_atr = 2.0
 atr_stop_mult = 1.0
-min_reward_risk = 1.2         # 到 VWAP 的空間不足此 R 倍就放棄
+min_reward_risk = 1.2
 
-[indicators]
+[defaults.indicators]
 atr_period = 14
 adx_period = 14
 volume_lookback = 20
 
-[notify]
-# 選填：掃描到訊號推播到 Telegram。請用環境變數 TG_TOKEN、TG_CHAT_ID，不要寫在這裡。
-telegram = false
+[defaults.timemachine]
+runs = 10000                  # 模擬次數
+seed = 19                     # 固定種子＝結果可重現
+min_edge_r = 0.0              # 模擬平均 R 低於此值 → 下單單 BLOCK
+
+[defaults.notify]
+telegram = false              # 環境變數 TG_TOKEN、TG_CHAT_ID
+
+# ---------------- 加密永續合約 ----------------
+[markets.crypto]
+name = "加密永續合約"
+source = "binance"
+tz = "UTC"
+symbols = ["BTCUSDT", "ETHUSDT", "SOLUSDT"]
+interval = "5m"
+currency = "USDT"
+sessions = []                 # 空 = 24 小時
+day_cut_hour = 0              # 日切點（當地時間）
+flat_by = ""                  # 無收盤；靠日切點與最長持倉出場
+last_entry = ""
+funding = true
+allow_short = true
+qty_step = 0                  # 0 = 不取整（各幣最小單位不同，下單時請自行對齊）
+
+[markets.crypto.account]
+equity = 1000.0
+max_leverage = 10
+
+[markets.crypto.costs]
+fee_pct = 0.05
+maker_fee_pct = 0.02
+slippage_bps = 3
+
+[markets.crypto.strategy.orb]
+session_times = ["00:00", "07:00", "13:00"]   # 亞 / 歐 / 美盤
+range_minutes = 30
+
+# ---------------- 美股 ----------------
+[markets.us]
+name = "美股"
+source = "yahoo"
+tz = "America/New_York"
+symbols = ["TSLA", "NVDA", "AAPL", "AMD"]
+interval = "5m"
+currency = "USD"
+sessions = [["09:30", "16:00"]]
+day_cut_hour = 0
+flat_by = "15:55"             # 收盤前 5 分鐘全平
+last_entry = "15:00"
+funding = false
+allow_short = false           # 放空需融券帳戶，預設關閉
+qty_step = 1
+
+[markets.us.account]
+equity = 5000.0
+max_leverage = 1
+
+[markets.us.costs]
+fee_pct = 0.0                 # 多數券商零佣金
+sell_tax_pct = 0.003          # SEC + FINRA 規費約略值
+slippage_bps = 2
+
+[markets.us.strategy.orb]
+session_times = ["09:30"]
+range_minutes = 15
+trade_window_minutes = 90
+stop_mode = "or_mid"
+
+# ---------------- 台股 ----------------
+[markets.tw]
+name = "台股"
+source = "yahoo"              # 代號：上市 2330.TW、上櫃 xxxx.TWO
+tz = "Asia/Taipei"
+symbols = ["2330.TW", "2317.TW", "2454.TW", "3231.TW"]
+interval = "5m"
+currency = "TWD"
+sessions = [["09:00", "13:30"]]
+day_cut_hour = 0
+flat_by = "13:20"             # 13:25 起是收盤集合競價，提早平倉
+last_entry = "12:30"
+funding = false
+allow_short = false           # 先賣後買需當沖資格，有資格再改 true
+qty_step = 1                  # 1 = 零股；整張請改 1000
+
+[markets.tw.account]
+equity = 300000.0
+max_leverage = 1
+
+[markets.tw.costs]
+fee_pct = 0.0855              # 0.1425% × 6 折（依你的券商折扣調整）
+min_fee = 20
+sell_tax_pct = 0.15           # 現股當沖證交稅減半
+slippage_bps = 5
+
+[markets.tw.strategy.orb]
+session_times = ["09:00"]
+range_minutes = 15
+trade_window_minutes = 90
+stop_mode = "or_mid"

@@ -1,7 +1,10 @@
-"""風控：由停損距離反推部位、檢查強平價、槓桿上限。"""
+"""風控：由停損距離反推部位（含最小單位、最低手續費、稅），檢查強平價與槓桿上限。"""
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
+
+from .markets import fee, roundtrip_rate
 
 
 @dataclass
@@ -12,7 +15,8 @@ class Sizing:
     margin: float = 0.0
     leverage_used: float = 0.0
     liq_price: float = 0.0
-    risk_amount: float = 0.0
+    risk_amount: float = 0.0   # 打到停損的實際虧損（含成本）
+    fees: float = 0.0          # 來回成本
     reason: str = ""
 
 
@@ -21,27 +25,36 @@ def liquidation_price(entry: float, side: int, leverage: float, mmr: float) -> f
     return entry * (1 - 1 / leverage + mmr) if side > 0 else entry * (1 + 1 / leverage - mmr)
 
 
-def size_position(equity: float, entry: float, stop: float, side: int,
-                  risk_pct: float, max_leverage: float, mmr: float, fee_pct: float = 0.0,
-                  max_fee_r: float = 1.0) -> Sizing:
+def loss_at_stop(costs: dict, entry: float, stop: float, side: int, qty: float) -> tuple[float, float]:
+    fees = fee(costs, entry, qty, side < 0) + fee(costs, stop, qty, side > 0)
+    return qty * abs(entry - stop) + fees, fees
+
+
+def size_position(equity: float, entry: float, stop: float, side: int, cfg: dict,
+                  risk_pct: float | None = None, leverage: float | None = None) -> Sizing:
+    acc, costs, mk = cfg["account"], cfg["costs"], cfg["market"]
+    risk_pct = risk_pct or acc["risk_per_trade_pct"]
+    lev = leverage or acc.get("max_leverage", 1)
     dist = abs(entry - stop)
     if dist <= 0 or (side > 0 and stop >= entry) or (side < 0 and stop <= entry):
         return Sizing(False, reason="停損位置錯誤")
     risk_amt = equity * risk_pct / 100
-    # 停損時的虧損 = 價差 + 進出兩次手續費
-    fee_unit = entry * fee_pct / 100 * 2
-    per_unit_loss = dist + fee_unit
-    if fee_unit / per_unit_loss > max_fee_r:
-        return Sizing(False, reason=f"停損太窄，手續費佔風險 {fee_unit / per_unit_loss:.0%}，不划算")
-    qty = risk_amt / per_unit_loss
+    qty = min(risk_amt / (dist + entry * roundtrip_rate(costs)), equity * lev / entry)
+    step = mk.get("qty_step", 0) or 0
+    if step:
+        qty = math.floor(qty / step + 1e-9) * step
+        while qty > 0 and loss_at_stop(costs, entry, stop, side, qty)[0] > risk_amt:
+            qty -= step  # 最低手續費可能讓實際虧損超標，逐單位縮小
+    if qty <= 0:
+        return Sizing(False, reason="風險額度買不到最小單位（停損太遠或資金太小）")
+    loss, fees = loss_at_stop(costs, entry, stop, side, qty)
+    if fees / loss > acc.get("max_fee_r", 1.0):
+        return Sizing(False, qty=qty, fees=fees, risk_amount=loss,
+                      reason=f"成本佔風險 {fees / loss:.0%}，停損太窄或部位太小，不划算")
     notional = qty * entry
-    cap = equity * max_leverage
-    if notional > cap:  # 槓桿上限優先，寧可少賺
-        notional = cap
-        qty = notional / entry
-    # 交易所槓桿設為 max_leverage（逐倉），保證金 = 名目 / 槓桿；實際曝險倍數另計
-    margin = notional / max_leverage
-    liq = liquidation_price(entry, side, max_leverage, mmr)
-    if (side > 0 and liq >= stop) or (side < 0 and liq <= stop):
-        return Sizing(False, reason=f"強平價 {liq:.4f} 比停損更近，請降低槓桿或縮小停損")
-    return Sizing(True, qty, notional, margin, notional / equity, liq, qty * per_unit_loss)
+    liq = 0.0
+    if lev > 1:
+        liq = liquidation_price(entry, side, lev, acc["maintenance_margin_rate"])
+        if (side > 0 and liq >= stop) or (side < 0 and liq <= stop):
+            return Sizing(False, reason=f"強平價 {liq:.6g} 比停損更近，請降低槓桿或縮小停損")
+    return Sizing(True, qty, notional, notional / lev, notional / equity, liq, loss, fees)

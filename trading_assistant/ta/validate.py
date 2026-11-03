@@ -10,8 +10,8 @@ from . import backtest, metrics
 
 # 預設掃描範圍：只掃少數關鍵參數，掃太多＝自我欺騙
 DEFAULT_GRID = {
-    "orb.atr_stop_mult": [1.0, 1.5, 2.0],
-    "orb.reward_risk": [1.5, 2.0, 3.0],
+    "orb.stop_mode": ["atr", "or_mid", "or_low"],   # ATR 停損 vs 開盤區間中點 vs 區間另一端
+    "orb.reward_risk": [1.0, 1.5, 2.0],
     "orb.min_volume_ratio": [1.2, 1.5, 2.0],
 }
 

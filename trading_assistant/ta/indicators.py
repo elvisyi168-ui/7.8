@@ -27,13 +27,15 @@ def adx(df: pd.DataFrame, n: int = 14) -> pd.Series:
     return rma(dx, n)
 
 
-def day_key(index: pd.DatetimeIndex, cut_hour: int = 0) -> pd.Series:
-    return pd.Series((index - pd.Timedelta(hours=cut_hour)).floor("D"), index=index)
+def day_key(index: pd.DatetimeIndex, cut_hour: int = 0, tz: str = "UTC") -> pd.Series:
+    """交易日鍵：以市場當地時間 + 日切點分日。"""
+    local = index.tz_convert(tz).tz_localize(None)
+    return pd.Series((local - pd.Timedelta(hours=cut_hour)).floor("D"), index=index)
 
 
-def session_vwap(df: pd.DataFrame, cut_hour: int = 0) -> pd.Series:
+def session_vwap(df: pd.DataFrame, cut_hour: int = 0, tz: str = "UTC") -> pd.Series:
     tp = (df["high"] + df["low"] + df["close"]) / 3
-    key = day_key(df.index, cut_hour)
+    key = day_key(df.index, cut_hour, tz)
     pv = (tp * df["volume"]).groupby(key).cumsum()
     v = df["volume"].groupby(key).cumsum()
     return pv / v
@@ -48,6 +50,7 @@ def add_all(df: pd.DataFrame, cfg: dict) -> pd.DataFrame:
     out = df.copy()
     out["atr"] = atr(out, ic["atr_period"])
     out["adx"] = adx(out, ic["adx_period"])
-    out["vwap"] = session_vwap(out, cfg["market"]["day_cut_hour_utc"])
+    mk = cfg["market"]
+    out["vwap"] = session_vwap(out, mk.get("day_cut_hour", 0), mk.get("tz", "UTC"))
     out["vol_ratio"] = volume_ratio(out, ic["volume_lookback"])
     return out
